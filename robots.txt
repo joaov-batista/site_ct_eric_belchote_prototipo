@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /admin/
-Allow: /sitemap.xml
+Allow: /sitemap_v2.xml
 Allow: /
