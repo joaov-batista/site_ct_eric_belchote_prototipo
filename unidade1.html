@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./img/icon.jpg">
+    <title>Unidade Stella Maris - CT Eric Belchote</title>
+    <style>
+        /* Estilos compartilhados com a página principal */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Cabeçalho */
+        .main-nav {
+            background-color: #1a3e2f;
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #d4af37;
+        }
+        
+        .nav-links a.active {
+            color: #d4af37;
+        }
+        
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #d4af37;
+        }
+        
+        .nav-mobile-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        /* Conteúdo Principal */
+        .unidade-container {
+            max-width: 1200px;
+            margin: 6rem auto 2rem;
+            padding: 0 2rem;
+        }
+        
+        .unidade-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .unidade-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1a3e2f;
+        }
+        
+        .unidade-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .unidade-info {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        
+        .unidade-info h2 {
+            color: #1a3e2f;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .unidade-info p {
+            margin-bottom: 1rem;
+        }
+        
+        /* Botão de Matrícula */
+        .btn-matricula {
+            display: inline-block;
+            background-color: #1a3e2f;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-matricula:hover {
+            background-color: #d4af37;
+            transform: translateY(-2px);
+        }
+        
+        /* Carrossel */
+        .carrossel-container {
+            position: relative;
+            max-width: 800px;
+            margin: 2rem auto;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .carrossel {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .carrossel img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        
+        .carrossel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(26, 62, 47, 0.7);
+            color: white;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+        
+        .carrossel-btn:hover {
+            background-color: rgba(26, 62, 47, 0.9);
+        }
+        
+        .carrossel-btn.prev {
+            left: 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .carrossel-btn.next {
+            right: 0;
+            border-radius: 8px 0 0 8px;
+        }
+        
+        .carrossel-indicadores {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+        
+        .indicador {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .indicador.active {
+            background-color: white;
+        }
+        
+        .horarios-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .horarios-table th, .horarios-table td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .horarios-table th {
+            background-color: #1a3e2f;
+            color: white;
+        }
+        
+        .horarios-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        /* Rodapé */
+        footer {
+            background-color: #1a3e2f;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: #d4af37;
+        }
+        
+        /* Botão do WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: translateY(-5px);
+        }
+        
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: #1a3e2f;
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                transform: translateY(-150%);
+                opacity: 0;
+                transition: all 0.3s ease;
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            .nav-links a {
+                padding: 1rem 2rem;
+                border-bottom: 1px solid #2a5e4f;
+            }
+            
+            .nav-mobile-btn {
+                display: block;
+            }
+            
+            .unidade-container {
+                margin-top: 5rem;
+            }
+            
+            .unidade-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .carrossel img {
+                height: 300px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Cabeçalho de Navegação -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">CT Eric Belchote</a>
+            <div class="nav-links" id="navLinks">
+                <a href="unidade1.html" class="active">Unidade Stella Maris</a>
+                <a href="unidade2.html">Unidade Piatã</a>
+                <a href="matricula.html">Matricule-se</a>
+            </div>
+            <button class="nav-mobile-btn" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="unidade-container">
+        <section class="unidade-header">
+            <h1>Unidade Stella Maris</h1>
+            <p>Excelência no Vôlei de Praia para Todas as Idades</p>
+            <!-- BOTÃO ADICIONADO AQUI -->
+            <a href="matricula.html" class="btn-matricula">
+                <i class="fas fa-edit"></i> Matricule-se agora
+            </a>
+        </section>
+
+        <div class="unidade-content">
+            <div class="unidade-info">
+                <h2>Sobre a Unidade</h2>
+                <p>Localizada no CEPE Stella Maris, nossa unidade oferece estrutura completa para a prática do vôlei de praia. </p>
+                <p>Contamos com equipamentos de qualidade e um ambiente seguro e acolhedor para treinos em todos os níveis.</p>
+                
+                <h2>Endereço</h2>
+                <p><i class="fas fa-map-marker-alt"></i><a href="https://www.google.com.br/maps/place/CEPE+Salvador+Stella+Maris/@-12.935364,-38.3315481,17z/data=!3m1!4b1!4m6!3m5!1s0x71617c234f38ef3:0x41cd728dd4d8455b!8m2!3d-12.935364!4d-38.3315481!16s%2Fg%2F1yfjjsv0b?entry=ttu&g_ep=EgoyMDI1MDUwNS4wIKXMDSoASAFQAw%3D%3D"> Rua Missionário Otto Nelson, 640 - Stella Maris, Salvador - BA, 41600-650</a></p>
+                <p><i class="fas fa-phone"></i> <a href="https://wa.me/557187617926?text=Olá,%20gostaria%20de%20mais%20informações%20sobre%20o%20vôlei!"> (71) 8761-7926</a></p>
+            </div>
+
+            <div class="unidade-info">
+                <h2>Horários das Turmas</h2>
+                <table class="horarios-table">
+                    <thead>
+                        <tr>
+                            <th>Dia</th>
+                            <th>Horário</th>
+                            <th>Nível</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Quarta-feira</td>
+                            <td>07:00 - 08:00</td>
+                            <td>Adultos</td>
+                        </tr>
+                        <tr>
+                            <td>Quarta-feira</td>
+                            <td>16:00 - 17:00</td>
+                            <td>Infantil</td>
+                        </tr>
+                        <tr>
+                            <td>Sexta-feira</td>
+                            <td>07:00 - 08:00</td>
+                            <td>Adultos</td>
+                        </tr>
+                        <tr>
+                            <td>Sexta-feira</td>
+                            <td>16:00 - 17:00</td>
+                            <td>Infantil</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h2>Professores</h2>
+                <p><strong>Eric Belchote</strong> - Profissional formado e Ex Atleta</p>
+                <p><strong>Mario Angelo</strong> - Atleta profissional</p>
+            </div>
+        </div>
+
+        <div class="unidade-info">
+            <h2>Galeria</h2>
+            <div class="carrossel-container">
+                <div class="carrossel" id="carrossel">
+                    <img src="./img/cepe/um.jpg" alt="Academia Stella Maris">
+                    <img src="./img/cepe/tres.jpg" alt="Treino adultos">
+                    <img src="./img/cepe/cepe_quinta.jpg" alt="Treino infantil">
+                </div>
+                <button class="carrossel-btn prev" onclick="moverCarrossel(-1)">&#10094;</button>
+                <button class="carrossel-btn next" onclick="moverCarrossel(1)">&#10095;</button>
+                <div class="carrossel-indicadores" id="indicadores"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://www.instagram.com/ctericbelchote/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@ctericbelchote" target="_blank"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.youtube.com/@CtEricBelchote" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://wa.me/557187617926?text=Olá,%20gostaria%20de%20mais%20informações%20sobre%20o%20vôlei!" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.facebook.com/ctericbelchote/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        </div>
+        <p>&copy; 2023 CT Eric Belchote - Todos os direitos reservados</p>
+    </footer>
+
+    <a href="https://wa.me/557187617926?text=Olá,%20gostaria%20de%20mais%20informações%20sobre%20o%20vôlei!" target="_blank"" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Função para alternar o menu mobile
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Fechar menu quando clicar em um link (mobile)
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                const navLinks = document.getElementById('navLinks');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Carrossel
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('#carrossel img');
+        const indicadoresContainer = document.getElementById('indicadores');
+        
+        // Cria indicadores
+        slides.forEach((_, index) => {
+            const indicador = document.createElement('div');
+            indicador.classList.add('indicador');
+            if (index === 0) indicador.classList.add('active');
+            indicador.addEventListener('click', () => {
+                slideIndex = index;
+                atualizarCarrossel();
+            });
+            indicadoresContainer.appendChild(indicador);
+        });
+        
+        function moverCarrossel(n) {
+            slideIndex += n;
+            if (slideIndex >= slides.length) slideIndex = 0;
+            if (slideIndex < 0) slideIndex = slides.length - 1;
+            atualizarCarrossel();
+        }
+        
+        function atualizarCarrossel() {
+            const carrossel = document.getElementById('carrossel');
+            const indicadores = document.querySelectorAll('.indicador');
+            
+            carrossel.style.transform = `translateX(-${slideIndex * 100}%)`;
+            
+            indicadores.forEach((ind, index) => {
+                ind.classList.toggle('active', index === slideIndex);
+            });
+        }
+        
+        // Auto-avanço do carrossel
+        setInterval(() => moverCarrossel(1), 5000);
+    </script>
+</body>
+</html>

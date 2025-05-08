@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./img/icon.jpg">
+    <title>CT Eric Belchote</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding-top: 70px;
+        }
+        
+        /* Cabeçalho */
+        .main-nav {
+            background-color: #1a3e2f;
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #d4af37;
+        }
+        
+        .nav-links a.active {
+            color: #d4af37;
+        }
+        
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #d4af37;
+        }
+        
+        .nav-mobile-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        /* Carrossel Principal */
+        .main-carousel {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            overflow: hidden;
+        }
+        
+        .carousel-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .carousel-item {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        
+        .carousel-item.active {
+            opacity: 1;
+        }
+        
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .carousel-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            z-index: 10;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        
+        .carousel-overlay h1 {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 700;
+            animation: smoothTextAppear 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+            animation-delay: 0.3s;
+            opacity: 0;
+        }
+        
+        .carousel-overlay p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            font-weight: 400;
+            animation: smoothTextAppear 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+            animation-delay: 0.6s;
+            opacity: 0;
+        }
+        
+        @keyframes smoothTextAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+                filter: blur(2px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+        
+        /* Conteúdo Principal */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        section {
+            margin-bottom: 3rem;
+        }
+        
+        .about {
+            text-align: center;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+        
+        .units h2 {
+            text-align: center;
+            font-size: 2rem;
+            color: #1a3e2f;
+            margin-bottom: 2rem;
+            animation: slideInFromLeft 1s ease-out forwards;
+        }
+        
+        /* Cards */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .unit-carousel {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .unit-carousel-inner {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
+        
+        .unit-carousel-item {
+            min-width: 100%;
+            height: 100%;
+        }
+        
+        .unit-carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .unit-carousel-prev, 
+        .unit-carousel-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(26, 62, 47, 0.7);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 10;
+        }
+        
+        .unit-carousel-prev {
+            left: 10px;
+        }
+        
+        .unit-carousel-next {
+            right: 10px;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-content h3 {
+            color: #1a3e2f;
+            margin-bottom: 0.5rem;
+        }
+        
+        .more-info {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #d4af37;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 3rem 2rem;
+            background-color: #1a3e2f;
+            color: white;
+            border-radius: 8px;
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+        
+        .cta h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background-color: #d4af37;
+            color: #1a3e2f;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 4px;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            animation: pulse 2.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
+        }
+        
+        .cta-btn:hover {
+            background-color: #e8c252;
+            animation: none;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideInFromLeft {
+            from { 
+                transform: translateX(-50px); 
+                opacity: 0; 
+            }
+            to { 
+                transform: translateX(0); 
+                opacity: 1; 
+            }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Rodapé */
+        footer {
+            background-color: #1a3e2f;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: #d4af37;
+        }
+        
+        /* WhatsApp flutuante */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: translateY(-5px);
+        }
+        
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: #1a3e2f;
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                transform: translateY(-150%);
+                opacity: 0;
+                transition: all 0.3s ease;
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            .nav-links a {
+                padding: 1rem 2rem;
+                border-bottom: 1px solid #2a5e4f;
+            }
+            
+            .nav-mobile-btn {
+                display: block;
+            }
+            
+            .main-carousel {
+                height: 50vh;
+            }
+            
+            .carousel-overlay h1 {
+                font-size: 2.5rem;
+            }
+            
+            .carousel-overlay p {
+                font-size: 1.2rem;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- CABEÇALHO -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">CT Eric Belchote</a>
+            <div class="nav-links" id="navLinks">
+                <a href="unidade1.html">Unidade Stella Maris</a>
+                <a href="unidade2.html">Unidade Piatã</a>
+                <a href="matricula.html">Matricule-se</a>
+            </div>
+            <button class="nav-mobile-btn" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <header>
+        <div class="main-carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="./img/banner/c.jpg" alt="Vôlei de Praia">
+                </div>
+                <div class="carousel-item">
+                    <img src="./img/jagua/jagua_tres.jpg" alt="Treino de Vôlei">
+                </div>
+                <div class="carousel-item">
+                    <img src="./img/jagua/slide_dois.jpg" alt="Equipe de Vôlei">
+                </div>
+            </div>
+            <div class="carousel-overlay">
+                <h1>CT Eric Belchote</h1>
+                <p>Escola de Vôlei de Praia</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="about">
+            <h2>Sobre Nossa Escola</h2>
+            <p>O CT Eric Belchote é referência no ensino de vôlei de praia, oferecendo uma formação
+                completa para atletas e apaixonados pelo esporte. Com uma metodologia exclusiva e
+                professores altamente qualificados, promovemos o desenvolvimento técnico e físico dos
+                nossos alunos em um ambiente acolhedor, profissional e motivador.
+            </p>
+        </section>
+
+        <section class="units">
+            <h2>Nossas Unidades</h2>
+            <div class="cards-container">
+                <div class="card">
+                    <div class="unit-carousel">
+                        <div class="unit-carousel-inner">
+                            <div class="unit-carousel-item active">
+                                <img src="./img/cepe/um.jpg" alt="Unidade 1">
+                            </div>
+                            <div class="unit-carousel-item">
+                                <img src="./img/cepe/tres.jpg" alt="Unidade 1 - Quadra">
+                            </div>
+                            <div class="unit-carousel-item">
+                                <img src="./img/cepe/cepe_quinta.jpg" alt="Unidade 1 - Vista">
+                            </div>
+                        </div>
+                        <button class="unit-carousel-prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="unit-carousel-next"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="card-content">
+                        <h3>Unidade Stella Maris - Clube CEPE Salvador</h3>
+                        <p>Estrutura completa para treinos e competições de alto nível.
+                        </p>
+                        <a href="unidade1.html" class="more-info">Saiba mais</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="unit-carousel">
+                        <div class="unit-carousel-inner">
+                            <div class="unit-carousel-item active">
+                                <img src="./img/jagua/Imagem do WhatsApp de 2024-11-25 à(s) 22.02.14_8111fe68.jpg"
+                                    alt="Unidade 2">
+                            </div>
+                            <div class="unit-carousel-item">
+                                <img src="./img/jagua/jagua_tres.jpg" alt="Unidade 2 - Noturna">
+                            </div>
+                            <div class="unit-carousel-item">
+                                <img src="./img/jagua/slide_dois.jpg" alt="Unidade 2 - Treino">
+                            </div>
+                        </div>
+                        <button class="unit-carousel-prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="unit-carousel-next"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="card-content">
+                        <h3>Unidade Piatã - Costa Verde Tennis Clube</h3>
+                        <p>Centro de treinamento completo com quadras iluminadas para aulas noturnas.</p>
+                        <a href="unidade2.html" class="more-info">Saiba mais</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cta-section" class="cta">
+            <h2>Pronto para começar?</h2>
+            <p>Agende uma aula experimental gratuita e venha fazer parte do nosso time!</p>
+            <a href="./matricula.html" class="cta-btn">Matricule-se Agora</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://www.instagram.com/ctericbelchote/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@ctericbelchote" target="_blank"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.youtube.com/@CtEricBelchote" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://wa.me/557187617926?text=Olá,%20gostaria%20de%20mais%20informações%20sobre%20o%20vôlei!" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.facebook.com/ctericbelchote/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        </div>
+        <p>&copy; 2023 CT Eric Belchote - Todos os direitos reservados</p>
+    </footer>
+
+    <a href="https://wa.me/557187617926?text=Olá,%20gostaria%20de%20mais%20informações%20sobre%20o%20vôlei!" target="_blank"" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Menu Mobile
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Fechar menu ao clicar em link (mobile)
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                const navLinks = document.getElementById('navLinks');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Carrossel Principal
+        let currentMainSlide = 0;
+        const mainSlides = document.querySelectorAll('.carousel-item');
+        const totalMainSlides = mainSlides.length;
+        
+        function showMainSlide(index) {
+            if (index >= totalMainSlides) currentMainSlide = 0;
+            else if (index < 0) currentMainSlide = totalMainSlides - 1;
+            else currentMainSlide = index;
+            
+            mainSlides.forEach(slide => slide.classList.remove('active'));
+            mainSlides[currentMainSlide].classList.add('active');
+        }
+
+        // Carrossel automático principal
+        let mainSlideInterval = setInterval(() => showMainSlide(currentMainSlide + 1), 5000);
+
+        // Pausa quando mouse está sobre o carrossel principal
+        document.querySelector('.main-carousel').addEventListener('mouseenter', () => {
+            clearInterval(mainSlideInterval);
+        });
+
+        document.querySelector('.main-carousel').addEventListener('mouseleave', () => {
+            mainSlideInterval = setInterval(() => showMainSlide(currentMainSlide + 1), 5000);
+        });
+
+        // Inicializa carrossel principal
+        showMainSlide(0);
+
+        // Carrosseis das unidades
+        function initUnitCarousels() {
+            document.querySelectorAll('.unit-carousel').forEach(carousel => {
+                const inner = carousel.querySelector('.unit-carousel-inner');
+                const items = carousel.querySelectorAll('.unit-carousel-item');
+                const prevBtn = carousel.querySelector('.unit-carousel-prev');
+                const nextBtn = carousel.querySelector('.unit-carousel-next');
+                let currentIndex = 0;
+                const totalItems = items.length;
+                
+                function showUnitSlide(index) {
+                    if (index >= totalItems) index = 0;
+                    else if (index < 0) index = totalItems - 1;
+                    
+                    items.forEach(item => item.classList.remove('active'));
+                    items[index].classList.add('active');
+                    currentIndex = index;
+                    inner.style.transform = `translateX(-${currentIndex * 100}%)`;
+                }
+                
+                // Navegação
+                prevBtn.addEventListener('click', () => showUnitSlide(currentIndex - 1));
+                nextBtn.addEventListener('click', () => showUnitSlide(currentIndex + 1));
+                
+                // Carrossel automático
+                let interval = setInterval(() => showUnitSlide(currentIndex + 1), 4000);
+                
+                // Pausa quando mouse está sobre o carrossel
+                carousel.addEventListener('mouseenter', () => clearInterval(interval));
+                carousel.addEventListener('mouseleave', () => {
+                    interval = setInterval(() => showUnitSlide(currentIndex + 1), 4000);
+                });
+                
+                showUnitSlide(0);
+            });
+        }
+
+        // Inicializa carrosseis das unidades
+        document.addEventListener('DOMContentLoaded', initUnitCarousels);
+    </script>
+</body>
+</html>

@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrícula - CT Eric Belchote</title>
+    <link rel="icon" href="./img/icon.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos compartilhados com a página principal */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding-top: 70px;
+        }
+        
+        /* Cabeçalho */
+        .main-nav {
+            background-color: #1a3e2f;
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #d4af37;
+        }
+        
+        .nav-links a.active {
+            color: #d4af37;
+        }
+        
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #d4af37;
+        }
+        
+        .nav-mobile-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        /* Conteúdo Principal */
+        .matricula-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .matricula-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .matricula-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1a3e2f;
+        }
+        
+        .matricula-form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #1a3e2f;
+        }
+        
+        .form-group input[type="text"],
+        .form-group input[type="tel"] {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .radio-custom {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #1a3e2f;
+            border-radius: 50%;
+            position: relative;
+        }
+        
+        .radio-option input:checked + .radio-custom::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 10px;
+            height: 10px;
+            background-color: #1a3e2f;
+            border-radius: 50%;
+        }
+        
+        .turmas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .turma-option {
+            position: relative;
+        }
+        
+        .turma-option input {
+            position: absolute;
+            opacity: 0;
+        }
+        
+        .turma-option label {
+            display: block;
+            padding: 1rem;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .turma-option input:checked + label {
+            border-color: #1a3e2f;
+            background-color: rgba(26, 62, 47, 0.05);
+        }
+        
+        .turma-dia {
+            font-weight: 600;
+            color: #1a3e2f;
+        }
+        
+        .turma-horario {
+            color: #555;
+        }
+        
+        .turma-nivel {
+            display: inline-block;
+            background-color: #d4af37;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        
+        .turma-idade {
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 0.3rem;
+        }
+        
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #25D366;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            gap: 0.5rem;
+        }
+        
+        .cta-btn:hover {
+            background-color: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Rodapé */
+        footer {
+            background-color: #1a3e2f;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: #d4af37;
+        }
+        
+        /* Botão do WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: translateY(-5px);
+        }
+        
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: #1a3e2f;
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                transform: translateY(-150%);
+                opacity: 0;
+                transition: all 0.3s ease;
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            .nav-links a {
+                padding: 1rem 2rem;
+                border-bottom: 1px solid #2a5e4f;
+            }
+            
+            .nav-mobile-btn {
+                display: block;
+            }
+            
+            .matricula-container {
+                margin-top: 1rem;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .turmas-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho de Navegação -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">CT Eric Belchote</a>
+            <div class="nav-links" id="navLinks">
+                <a href="unidade1.html">Unidade Stella Maris</a>
+                <a href="unidade2.html">Unidade Piatã</a>
+                <a href="matricula.html" class="active">Matricule-se</a>
+            </div>
+            <button class="nav-mobile-btn" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="matricula-container">
+        <section class="matricula-header">
+            <h1>Formulário de Interesse em Matrícula</h1>
+            <p>Preencha seus dados e selecione os horários desejados</p>
+        </section>
+
+        <form class="matricula-form">
+            <div class="form-group">
+                <label for="nome">Nome Completo</label>
+                <input type="text" id="nome" placeholder="Digite seu nome completo" required>
+            </div>
+
+            <div class="form-group">
+                <label for="telefone">Telefone</label>
+                <input type="tel" id="telefone" placeholder="(XX) XXXXX-XXXX" required>
+            </div>
+
+            <div class="form-group">
+                <label>Unidade de Preferência</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="unidade" value="Stella Maris" checked onchange="filtrarTurmas()">
+                        Stella Maris
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="unidade" value="Piatã" onchange="filtrarTurmas()">
+                        Piatã
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Turmas Disponíveis</label>
+                <div class="turmas-grid" id="turmas-container">
+                    <!-- Turmas serão carregadas dinamicamente via JavaScript -->
+                </div>
+            </div>
+
+            <button type="button" class="cta-btn pulse" onclick="finalizarMatricula()">
+                <i class="fab fa-whatsapp"></i> Enviar Matrícula
+            </button>
+        </form>
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://www.instagram.com/ctericbelchote/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@ctericbelchote" target="_blank"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.youtube.com/@CtEricBelchote" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://wa.me/557187617926?text=Olá,%20gostaria%20de%20mais%20informações%20sobre%20o%20vôlei!" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.facebook.com/ctericbelchote/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        </div>
+        <p>&copy; 2023 CT Eric Belchote - Todos os direitos reservados</p>
+    </footer>
+
+    <a href="https://wa.me/557187617926?text=Olá,%20gostaria%20de%20mais%20informações%20sobre%20o%20vôlei!" target="_blank"" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Dados das turmas por unidade
+        const turmasPorUnidade = {
+            "Stella Maris": [
+                {
+                    id: "pf-quarta-manha",
+                    dia: "Quarta-feira",
+                    horario: "07:00 às 08:30",
+                    nivel: "Adultos",
+                    faixaEtaria: "A partir de 18 anos"
+                },
+                {
+                    id: "pf-quarta-tarde",
+                    dia: "Quarta-feira",
+                    horario: "16:00 às 17:30",
+                    nivel: "Infantil",
+                    faixaEtaria:"De 6 a 12 anos"
+                },
+                {
+                    id: "pf-sexta-manha",
+                    dia: "Sexta-feira",
+                    horario: "07:00 às 08:30",
+                    nivel: "Adultos",
+                    faixaEtaria: "A partir de 18 anos"
+                },
+                {
+                    id: "pf-sexta-tarde",
+                    dia: "Sexta-feira",
+                    horario: "16:00 às 17:30",
+                    nivel: "Infantil",
+                    faixaEtaria:  "ㅤDe 6 a 12 anos"
+                }
+            ],
+            "Piatã": [
+                {
+                    id: "ir-segunda-noite",
+                    dia: "Segunda-feira",
+                    horario: "19:00 às 20:30",
+                    nivel: "Adultos",
+                    faixaEtaria: "A partir de 16 anos"
+                },
+                {
+                    id: "ir-terca-manha1",
+                    dia: "Terça-feira",
+                    horario: "06:00 às 07:30",
+                    nivel: "Avançado",
+                    faixaEtaria: "A partir de 16 anos"
+                },
+                {
+                    id: "ir-terca-manha2",
+                    dia: "Terça-feira",
+                    horario: "07:30 às 09:00",
+                    nivel: "Intermediário",
+                    faixaEtaria: "A partir de 16 anos"
+                },
+                {
+                    id: "ir-terca-tarde1",
+                    dia: "Terça-feira",
+                    horario: "16:00 às 17:30",
+                    nivel: "Iniciante",
+                    faixaEtaria: "10 a 15 anos"
+                },
+                {
+                    id: "ir-terca-tarde2",
+                    dia: "Terça-feira",
+                    horario: "17:30 às 19:00",
+                    nivel: "Intermediário",
+                    faixaEtaria: "A partir de 16 anos"
+                },
+                {
+                    id: "ir-quarta-noite",
+                    dia: "Quarta-feira",
+                    horario: "19:00 às 20:30",
+                    nivel: "Adultos",
+                    faixaEtaria: "A partir de 16 anos"
+                },
+                {
+                    id: "ir-quinta-manha1",
+                    dia: "Quinta-feira",
+                    horario: "06:00 às 07:30",
+                    nivel: "Avançado",
+                    faixaEtaria: "A partir de 16 anos"
+                },
+                {
+                    id: "ir-quinta-manha2",
+                    dia: "Quinta-feira",
+                    horario: "07:30 às 09:00",
+                    nivel: "Intermediário",
+                    faixaEtaria: "A partir de 16 anos"
+                },
+                {
+                    id: "ir-quinta-tarde1",
+                    dia: "Quinta-feira",
+                    horario: "16:00 às 17:30",
+                    nivel: "Iniciante",
+                    faixaEtaria: "10 a 15 anos"
+                },
+                {
+                    id: "ir-quinta-tarde2",
+                    dia: "Quinta-feira",
+                    horario: "17:30 às 19:00",
+                    nivel: "Intermediário",
+                    faixaEtaria: "A partir de 16 anos"
+                }
+            ]
+        };
+
+        // Função para carregar as turmas da unidade selecionada
+        function filtrarTurmas() {
+            const unidadeSelecionada = document.querySelector('input[name="unidade"]:checked').value;
+            const turmasContainer = document.getElementById('turmas-container');
+            
+            // Limpa as turmas atuais
+            turmasContainer.innerHTML = '';
+            
+            // Adiciona as turmas da unidade selecionada
+            turmasPorUnidade[unidadeSelecionada].forEach(turma => {
+                const turmaElement = document.createElement('div');
+                turmaElement.className = 'turma-option';
+                turmaElement.innerHTML = `
+                    <input type="checkbox" id="${turma.id}" value="${turma.dia} - ${turma.horario} (${turma.nivel})">
+                    <label for="${turma.id}">
+                        <span class="turma-dia">${turma.dia}</span>
+                        <span class="turma-horario">${turma.horario}</span>
+                        <span class="turma-nivel">${turma.nivel}</span>
+                        <span class="turma-idade">${turma.faixaEtaria}</span>
+                    </label>
+                `;
+                turmasContainer.appendChild(turmaElement);
+            });
+        }
+
+        // Função para alternar o menu mobile
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Fechar menu quando clicar em um link (mobile)
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                const navLinks = document.getElementById('navLinks');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Carrega as turmas iniciais (Stella Maris)
+        document.addEventListener('DOMContentLoaded', filtrarTurmas);
+
+        function finalizarMatricula() {
+            const nome = document.getElementById('nome').value.trim();
+            const telefone = document.getElementById('telefone').value.trim();
+            const unidade = document.querySelector('input[name="unidade"]:checked').value;
+            const checkboxes = document.querySelectorAll('.turma-option input[type="checkbox"]:checked');
+            const turmasSelecionadas = Array.from(checkboxes).map(cb => cb.value);
+
+            if (!nome || !telefone || turmasSelecionadas.length === 0) {
+                alert('Por favor, preencha todos os campos obrigatórios e selecione pelo menos uma turma.');
+                return;
+            }
+
+            const mensagem = `Olá, sou ${nome}!\n\nGostaria de me matricular no CT Eric Belchote com os seguintes dados:\n\n` +
+                             `📞 Telefone: ${telefone}\n` +
+                             `🏢 Unidade: ${unidade}\n\n` +
+                             `📅 Turmas selecionadas:\n- ${turmasSelecionadas.join('\n- ')}\n\n` +
+                             `Por favor, me envie informações sobre a matrícula!`;
+
+            const url = `https://wa.me/557187617926?text=${encodeURIComponent(mensagem)}`;
+            window.open(url, '_blank');
+        }
+
+        // Máscara para telefone
+        document.getElementById('telefone').addEventListener('input', function(e) {
+            const value = e.target.value.replace(/\D/g, '');
+            let formattedValue = '';
+            
+            if (value.length > 0) {
+                formattedValue = '(' + value.substring(0, 2);
+            }
+            if (value.length > 2) {
+                formattedValue += ') ' + value.substring(2, 7);
+            }
+            if (value.length > 7) {
+                formattedValue += '-' + value.substring(7, 11);
+            }
+            
+            e.target.value = formattedValue;
+        });
+    </script>
+</body>
+</html>
