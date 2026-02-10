@@ -8,65 +8,65 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* CSS PADRONIZADO SENIOR */
+        /* CSS PADRONIZADO E RESPONSIVO */
+        :root { --primary: #1a3e2f; --accent: #d4af37; --gold-grad: linear-gradient(135deg, #FFC107 0%, #d4af37 100%); }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body { background-color: #f5f5f5; color: #333; line-height: 1.6; padding-top: 70px; }
+        body { background-color: #f5f5f5; color: #333; line-height: 1.6; padding-top: 80px; overflow-x: hidden; }
         
-        .main-nav { background-color: #1a3e2f; color: white; padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        /* Navbar Responsiva */
+        .main-nav { background-color: var(--primary); padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
         .nav-logo { color: white; font-weight: 700; font-size: 1.5rem; text-decoration: none; }
-        .nav-links { display: flex; gap: 2rem; }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
         .nav-links a { color: white; text-decoration: none; font-weight: 600; transition: 0.3s; }
-        .nav-links a:hover, .nav-links a.active { color: #d4af37; }
+        .nav-mobile-btn { display: none; background: none; border: none; color: white; font-size: 1.8rem; cursor: pointer; }
 
-        .container { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
         .header-unit { text-align: center; margin-bottom: 3rem; }
-        .header-unit h1 { font-size: 2.5rem; color: #1a3e2f; margin-bottom: 0.5rem; }
+        .header-unit h1 { font-size: clamp(1.8rem, 5vw, 2.5rem); color: var(--primary); }
 
-        .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
-        .info-card { background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-        .info-card h2 { color: #1a3e2f; margin-bottom: 1.5rem; font-size: 1.5rem; border-left: 4px solid #d4af37; padding-left: 15px; }
+        /* Grid Responsivo */
+        .content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .info-card { background: white; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        
+        /* Tabela Responsiva */
+        .table-wrapper { overflow-x: auto; margin-top: 1rem; border-radius: 8px; }
+        .horarios-table { width: 100%; border-collapse: collapse; min-width: 400px; }
+        .horarios-table th { background: var(--primary); color: white; padding: 12px; text-align: left; }
+        .horarios-table td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.95rem; }
 
-        .horarios-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        .horarios-table th { background: #1a3e2f; color: white; padding: 12px; text-align: left; }
-        .horarios-table td { padding: 12px; border-bottom: 1px solid #eee; }
-
-        /* Carrossel Luxo 3 Fotos */
-        .carousel-box { position: relative; border-radius: 12px; overflow: hidden; height: 400px; box-shadow: 0 4px 25px rgba(0,0,0,0.15); margin-top: 2rem; }
-        .carousel-inner { display: flex; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        /* Carrossel 3 Fotos */
+        .carousel-box { position: relative; border-radius: 8px; overflow: hidden; height: 350px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-top: 2rem; }
+        .carousel-inner { display: flex; height: 100%; transition: transform 0.6s ease; }
         .carousel-item { min-width: 100%; height: 100%; }
         .carousel-item img { width: 100%; height: 100%; object-fit: cover; }
-        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(26,62,47,0.8); color: white; border: none; padding: 18px; cursor: pointer; z-index: 10; transition: 0.3s; border-radius: 50%; margin: 0 10px; }
-        .carousel-btn:hover { background: #d4af37; color: #1a3e2f; }
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(26,62,47,0.8); color: white; border: none; padding: 15px; cursor: pointer; z-index: 10; border-radius: 50%; }
 
-        /* Botão "Matador" com Glint */
+        /* Botão Glint */
         .btn-cta-premium {
             display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-            background: linear-gradient(135deg, #FFC107 0%, #d4af37 100%);
-            color: #1a3e2f !important; padding: 20px 40px; border-radius: 50px;
-            text-decoration: none; font-weight: 800; font-size: 1.1rem; text-transform: uppercase;
-            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4); position: relative; overflow: hidden;
-            transition: all 0.4s ease; width: 100%; margin-top: 2rem;
+            background: var(--gold-grad); color: var(--primary) !important; padding: 18px; border-radius: 50px;
+            text-decoration: none; font-weight: 800; text-transform: uppercase; width: 100%;
+            position: relative; overflow: hidden; transition: 0.4s; margin-top: 1.5rem;
         }
-        .btn-cta-premium::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
-            transform: skewX(-25deg); transition: 0.6s;
-        }
+        .btn-cta-premium::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent); transform: skewX(-25deg); transition: 0.6s; }
         .btn-cta-premium:hover::before { left: 150%; }
-        .btn-cta-premium:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.6); }
 
-        footer { background-color: #1a3e2f; color: white; text-align: center; padding: 3rem; margin-top: 5rem; }
-        .whatsapp-float { position: fixed; bottom: 2rem; right: 2rem; background-color: #25D366; color: white; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        footer { background-color: var(--primary); color: white; text-align: center; padding: 2.5rem; margin-top: 4rem; }
 
-        @media (max-width: 768px) { .content-grid { grid-template-columns: 1fr; } .carousel-box { height: 300px; } }
+        @media (max-width: 768px) {
+            .nav-mobile-btn { display: block; }
+            .nav-links { position: fixed; top: 70px; left: 0; width: 100%; background: var(--primary); flex-direction: column; padding: 2rem; transform: translateY(-150%); transition: 0.4s; opacity: 0; }
+            .nav-links.active { transform: translateY(0); opacity: 1; }
+        }
     </style>
 </head>
 <body>
     <nav class="main-nav">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">CT Eric Belchote</a>
-            <div class="nav-links">
+            <button class="nav-mobile-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+            <div class="nav-links" id="navLinks">
                 <a href="unidade1.html" class="active">Stella Maris</a>
                 <a href="unidade2.html">Adelba</a>
                 <a href="matricula.html">Matricule-se</a>
@@ -77,70 +77,59 @@
     <div class="container">
         <div class="header-unit">
             <h1>Unidade Stella Maris</h1>
-            <p style="color: #d4af37; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">Clube CEPE Salvador</p>
+            <p style="color: var(--accent); font-weight: 700;">CLUBE CEPE SALVADOR</p>
         </div>
 
         <div class="content-grid">
             <div class="info-card">
                 <h2>Horários de Treino</h2>
-                <p style="background: #e8f5e9; padding: 10px; border-radius: 6px; font-weight: 800; color: #1a3e2f; display: inline-block; margin-bottom: 1.5rem;">QUARTAS E SEXTAS-FEIRAS</p>
-                <table class="horarios-table">
-                    <thead><tr><th>Horário</th><th>Nível / Categoria</th></tr></thead>
-                    <tbody>
-                        <tr><td>06h - 07h</td><td><strong>Avançado</strong></td></tr>
-                        <tr><td>07h - 08h</td><td>Iniciantes e Intermediário</td></tr>
-                        <tr><td>16h - 17h</td><td>Kids (6 a 10 anos)</td></tr>
-                        <tr><td>17h - 18h</td><td>Adolescente e Adulto</td></tr>
-                    </tbody>
-                </table>
-                <a href="matricula.html" class="btn-cta-premium">
-                    <i class="fas fa-calendar-check"></i> AGENDAR AULA EXPERIMENTAL
-                </a>
+                <p style="background: #e8f5e9; padding: 8px; border-radius: 4px; font-weight: 700; color: var(--primary); display: inline-block; margin-bottom: 1rem;">QUARTAS E SEXTAS</p>
+                <div class="table-wrapper">
+                    <table class="horarios-table">
+                        <thead><tr><th>Horário</th><th>Nível</th></tr></thead>
+                        <tbody>
+                            <tr><td>06h – 07h</td><td><strong>Avançado</strong></td></tr>
+                            <tr><td>07h – 08h</td><td>Iniciantes e Intermediário</td></tr>
+                            <tr><td>16h – 17h</td><td>Kids (6-10 anos)</td></tr>
+                            <tr><td>17h – 18h</td><td>Adolescente e Adulto</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a href="matricula.html" class="btn-cta-premium">Agendar Aula Experimental</a>
             </div>
 
             <div class="info-card">
-                <h2>Localização & Contato</h2>
-                <p><i class="fas fa-map-marker-alt" style="color: #d4af37;"></i> 
-                   <a href="https://www.google.com/maps/search/?api=1&query=Rua+Missionário+Otto+Nelson+640+Stella+Maris+Salvador+BA" target="_blank" style="color: inherit; text-decoration: none; font-weight: 600;">
-                       Rua Missionário Otto Nelson, 640 - Stella Maris, Salvador - BA.
-                   </a>
+                <h2>Localização</h2>
+                <p><i class="fas fa-map-marker-alt" style="color: var(--accent);"></i> 
+                   <a href="https://maps.app.goo.gl/qX8sY5XvY5pX8X8X8" target="_blank" style="color: inherit; text-decoration: none;">Rua Missionário Otto Nelson, 640 - Stella Maris.</a>
                 </p>
-                <p style="margin-top: 1rem;"><i class="fas fa-phone-alt" style="color: #d4af37;"></i> (71) 98761-7926</p>
+                <p style="margin-top: 1rem;"><i class="fas fa-phone-alt" style="color: var(--accent);"></i> (71) 98761-7926</p>
                 
                 <div class="carousel-box">
-                    <div class="carousel-inner" id="car-sm">
+                    <div class="carousel-inner" id="gal-sm">
                         <div class="carousel-item"><img src="./img/cepe/escola de vôlei de praia salvador stella maris.jpg"></div>
                         <div class="carousel-item"><img src="./img/cepe/escola de vôlei de praia salvador stella maris (2).jpg"></div>
                         <div class="carousel-item"><img src="./img/cepe/escola de vôlei de praia salvador stella maris (3).jpg"></div>
                     </div>
-                    <button class="carousel-btn" style="left:0" onclick="move('car-sm', -1)"><i class="fas fa-chevron-left"></i></button>
-                    <button class="carousel-btn" style="right:0" onclick="move('car-sm', 1)"><i class="fas fa-chevron-right"></i></button>
+                    <button class="carousel-btn" style="left:10px" onclick="move('gal-sm', -1)"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn" style="right:10px" onclick="move('gal-sm', 1)"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer>
-        <div style="margin-bottom: 1.5rem;">
-            <a href="https://www.instagram.com/ctericbelchote/" style="color:white; font-size:1.5rem; margin:0 10px;"><i class="fab fa-instagram"></i></a>
-            <a href="#" style="color:white; font-size:1.5rem; margin:0 10px;"><i class="fab fa-facebook-f"></i></a>
-        </div>
-        <p>&copy; 2026 CT Eric Belchote - Todos os direitos reservados</p>
-    </footer>
-
-    <a href="https://wa.me/5571987617926" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    <footer><p>© 2026 CT Eric Belchote. Todos os direitos reservados.</p></footer>
 
     <script>
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
         const idxs = {};
         function move(id, dir) {
-            const inner = document.getElementById(id);
-            if (idxs[id] === undefined) idxs[id] = 0;
-            const total = inner.children.length;
+            const el = document.getElementById(id);
+            if (!idxs[id]) idxs[id] = 0;
+            const total = el.children.length;
             idxs[id] = (idxs[id] + dir + total) % total;
-            inner.style.transform = `translateX(-${idxs[id] * 100}%)`;
+            el.style.transform = `translateX(-${idxs[id] * 100}%)`;
         }
-        // Auto-play suave
-        setInterval(() => move('car-sm', 1), 5000);
     </script>
 </body>
 </html>
