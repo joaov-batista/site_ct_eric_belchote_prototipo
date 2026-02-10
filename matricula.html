@@ -8,46 +8,67 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* CSS PADRONIZADO COM O RESTANTE DO SITE */
+        /* DESIGN SYSTEM UNIFICADO */
+        :root {
+            --primary: #1a3e2f;
+            --accent: #d4af37;
+            --gold-gradient: linear-gradient(135deg, #FFC107 0%, #d4af37 100%);
+            --white: #ffffff;
+            --bg: #f5f5f5;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body { background-color: #f5f5f5; color: #333; line-height: 1.6; padding-top: 70px; }
-        
-        /* Barra de Navegação Verde Original */
-        .main-nav { background-color: #1a3e2f; color: white; padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        body { background-color: var(--bg); color: #333; line-height: 1.6; padding-top: 70px; overflow-x: hidden; }
+
+        /* Barra de Navegação Padronizada */
+        .main-nav { background-color: var(--primary); color: white; padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
         .nav-logo { color: white; font-weight: 700; font-size: 1.5rem; text-decoration: none; }
         .nav-links { display: flex; gap: 2rem; }
         .nav-links a { color: white; text-decoration: none; font-weight: 600; transition: 0.3s; }
-        .nav-links a.active { color: #d4af37; border-bottom: 2px solid #d4af37; }
+        .nav-links a:hover { opacity: 0.7; }
+        .nav-links a.active { border-bottom: 2px solid white; }
 
         /* Container do Formulário */
-        .matricula-container { max-width: 800px; margin: 4rem auto; padding: 0 2rem; }
-        .matricula-form { background: white; padding: 3rem; border-radius: 12px; box-shadow: 0 4px 25px rgba(0,0,0,0.08); }
+        .matricula-container { max-width: 800px; margin: 3rem auto; padding: 0 1.5rem; }
+        .matricula-header { text-align: center; margin-bottom: 3rem; }
+        .matricula-header h1 { color: var(--primary); font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 800; margin-bottom: 0.5rem; }
         
-        .form-group { margin-bottom: 2rem; }
-        .form-group label { display: block; margin-bottom: 0.8rem; font-weight: 700; color: #1a3e2f; text-transform: uppercase; font-size: 0.85rem; }
-        .form-group input { width: 100%; padding: 1.2rem; border: 2px solid #f1f1f1; border-radius: 8px; font-size: 1rem; transition: 0.3s; }
-        .form-group input:focus { border-color: #d4af37; outline: none; }
+        .matricula-form { background: white; padding: clamp(1.5rem, 5vw, 3rem); border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); border: 1px solid #eee; }
 
-        /* Seleção de Unidade */
+        .form-group { margin-bottom: 2rem; }
+        .form-group label { display: block; margin-bottom: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px; }
+        
+        .form-group input[type="text"], 
+        .form-group input[type="tel"] {
+            width: 100%; padding: 1.2rem; border: 2px solid #f1f1f1; border-radius: 10px; font-size: 1rem; transition: 0.3s; background: #fafafa;
+        }
+        .form-group input:focus { border-color: var(--accent); background: white; outline: none; }
+
+        /* Seleção de Unidade Estilo Botão */
         .radio-group { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         .radio-option input { display: none; }
-        .radio-option span { display: block; text-align: center; padding: 1.2rem; border: 2px solid #eee; border-radius: 8px; cursor: pointer; font-weight: 700; transition: 0.3s; }
-        .radio-option input:checked + span { background: #1a3e2f; color: white; border-color: #1a3e2f; box-shadow: 0 8px 15px rgba(26,62,47,0.2); }
+        .radio-option span {
+            display: block; text-align: center; padding: 1.2rem; border: 2px solid #eee; border-radius: 10px; cursor: pointer; font-weight: 700; transition: 0.3s;
+        }
+        .radio-option input:checked + span { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 8px 20px rgba(26,62,47,0.2); }
 
-        /* Grade de Turmas */
+        /* Grade de Turmas Responsiva */
         .turmas-grid { display: grid; gap: 1rem; margin-top: 1rem; }
         .turma-card input { display: none; }
-        .turma-card label { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem; border: 2px solid #eee; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-        .turma-card input:checked + label { border-color: #d4af37; background: rgba(212, 175, 55, 0.05); }
-        .turma-horario { font-weight: 800; color: #1a3e2f; font-size: 1.1rem; }
-        .turma-detalhe { font-size: 0.85rem; color: #666; font-weight: 600; }
+        .turma-card label {
+            display: flex; justify-content: space-between; align-items: center; padding: 1.2rem; border: 2px solid #eee; border-radius: 10px; cursor: pointer; transition: 0.3s;
+        }
+        .turma-card input:checked + label { border-color: var(--accent); background: rgba(212, 175, 55, 0.05); }
+        .turma-horario { font-weight: 800; color: var(--primary); font-size: 1.1rem; }
+        .turma-nivel { font-size: 0.85rem; color: #666; font-weight: 600; display: block; }
+        .badge-dia { background: #eee; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 800; color: #555; }
 
-        /* O BOTÃO MATADOR COM GLINT */
+        /* BOTÃO ENVIAR COM EFEITO GLINT */
         .btn-enviar-luxo {
             width: 100%; padding: 1.5rem; border: none; border-radius: 50px;
-            background: linear-gradient(135deg, #FFC107 0%, #d4af37 100%);
-            color: #1a3e2f !important; font-size: 1.2rem; font-weight: 800; text-transform: uppercase;
+            background: var(--gold-gradient); color: var(--primary) !important;
+            font-size: 1.2rem; font-weight: 800; text-transform: uppercase;
             cursor: pointer; position: relative; overflow: hidden; transition: 0.4s;
             display: flex; justify-content: center; align-items: center; gap: 12px;
             box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4); margin-top: 2rem;
@@ -60,12 +81,19 @@
         .btn-enviar-luxo:hover::before { left: 150%; }
         .btn-enviar-luxo:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.6); }
 
-        footer { background-color: #1a3e2f; color: white; text-align: center; padding: 3rem; margin-top: 5rem; }
-        
-        @media (max-width: 600px) { .nav-links { display: none; } .radio-group { grid-template-columns: 1fr; } }
+        footer { background-color: var(--primary); color: white; text-align: center; padding: 3rem 1.5rem; margin-top: 5rem; }
+
+        /* MOBILE ADJUSTMENTS */
+        @media (max-width: 600px) {
+            .nav-links { display: none; }
+            .radio-group { grid-template-columns: 1fr; }
+            .turma-card label { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .badge-dia { align-self: flex-end; }
+        }
     </style>
 </head>
 <body>
+
     <nav class="main-nav">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">CT Eric Belchote</a>
@@ -78,105 +106,113 @@
     </nav>
 
     <main class="matricula-container">
-        <div style="text-align: center; margin-bottom: 3rem;">
-            <h1 style="color: #1a3e2f; font-size: 2.2rem;">Aula Experimental Gratuita</h1>
-            <p>Garanta sua vaga e venha treinar na areia!</p>
+        <div class="matricula-header">
+            <h1>Aula Experimental</h1>
+            <p>Escolha sua unidade e o melhor horário para você.</p>
         </div>
 
         <form class="matricula-form">
             <div class="form-group">
-                <label>Nome Completo</label>
+                <label>Seu Nome Completo</label>
                 <input type="text" id="nome" placeholder="Digite seu nome" required>
             </div>
+
             <div class="form-group">
-                <label>WhatsApp</label>
+                <label>WhatsApp para Contato</label>
                 <input type="tel" id="telefone" placeholder="(71) 99999-9999" required>
             </div>
+
             <div class="form-group">
-                <label>Escolha a Unidade</label>
+                <label>Selecione a Unidade</label>
                 <div class="radio-group">
                     <label class="radio-option">
-                        <input type="radio" name="unidade" value="Stella Maris" checked onchange="atualizar()">
+                        <input type="radio" name="unidade" value="Stella Maris" checked onchange="carregarTurmas()">
                         <span>Stella Maris (CEPE)</span>
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="unidade" value="Adelba" onchange="atualizar()">
+                        <input type="radio" name="unidade" value="Adelba" onchange="carregarTurmas()">
                         <span>Adelba (Patamares)</span>
                     </label>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>Escolha seu Horário</label>
-                <div class="turmas-grid" id="container-turmas">
+                <label>Escolha um ou mais Horários</label>
+                <div class="turmas-grid" id="turmas-container">
                     </div>
             </div>
 
-            <button type="button" class="btn-enviar-luxo" onclick="finalizar()">
-                <i class="fab fa-whatsapp"></i> QUERO MINHA AULA EXPERIMENTAL
+            <button type="button" class="btn-enviar-luxo" onclick="enviarWhatsApp()">
+                <i class="fab fa-whatsapp"></i> AGENDAR AULA AGORA
             </button>
         </form>
     </main>
 
-    <footer><p>© 2026 CT Eric Belchote - Todos os direitos reservados</p></footer>
+    <footer>
+        <p>© 2026 CT Eric Belchote. Todos os direitos reservados.</p>
+    </footer>
 
     <script>
-        // DADOS 100% ATUALIZADOS DOS PRINTS
-        const dados = {
+        // DADOS SINCRONIZADOS COM OS FLYERS
+        const turmas = {
             "Stella Maris": [
-                { id: "sm1", h: "06h – 07h", n: "Avançado", d: "Qua/Sex" },
-                { id: "sm2", h: "07h – 08h", n: "Iniciantes e Intermediário", d: "Qua/Sex" },
-                { id: "sm3", h: "16h – 17h", n: "KIDS (6-10 anos)", d: "Qua/Sex" },
-                { id: "sm4", h: "17h – 18h", n: "Adolescente e Adulto", d: "Qua/Sex" }
+                { id: "sm1", h: "06h – 07h", n: "Avançado", d: "QUARTAS E SEXTAS" },
+                { id: "sm2", h: "07h – 08h", n: "Iniciantes e Intermediário", d: "QUARTAS E SEXTAS" },
+                { id: "sm3", h: "16h – 17h", n: "Kids (6-10 anos)", d: "QUARTAS E SEXTAS" },
+                { id: "sm4", h: "17h – 18h", n: "Adolescente e Adulto", d: "QUARTAS E SEXTAS" }
             ],
             "Adelba": [
-                { id: "ad1", h: "07h – 09h", n: "Manhã - Adultos (Inic/Inter)", d: "Seg a Sex" },
-                { id: "ad2", h: "16h – 17h", n: "KIDS (6-10 anos)", d: "Seg a Sex" },
-                { id: "ad3", h: "17h – 18h", n: "Adolescentes (Tática)", d: "Seg a Sex" },
-                { id: "ad4", h: "18h – 19h", n: "Adulto Iniciação", d: "Seg a Sex" },
-                { id: "ad5", h: "19h – 21h", n: "Adulto Intermediário", d: "Seg a Sex" }
+                { id: "ad1", h: "07h – 09h", n: "Manhã - Iniciantes e Intermediários", d: "SEG A SEX" },
+                { id: "ad2", h: "16h – 17h", n: "Kids (6-10 anos)", d: "SEG A SEX" },
+                { id: "ad3", h: "17h – 18h", n: "Adolescentes (Tática)", d: "SEG A SEX" },
+                { id: "ad4", h: "18h – 19h", n: "Adulto - Iniciação (Zero)", d: "SEG A SEX" },
+                { id: "ad5", h: "19h – 21h", n: "Adulto - Intermediário", d: "SEG A SEX" }
             ]
         };
 
-        function atualizar() {
-            const uni = document.querySelector('input[name="unidade"]:checked').value;
-            const cont = document.getElementById('container-turmas');
-            cont.innerHTML = '';
-            dados[uni].forEach(t => {
-                const item = document.createElement('div');
-                item.className = 'turma-card';
-                item.innerHTML = `
+        function carregarTurmas() {
+            const unidade = document.querySelector('input[name="unidade"]:checked').value;
+            const container = document.getElementById('turmas-container');
+            container.innerHTML = '';
+            
+            turmas[unidade].forEach(t => {
+                const div = document.createElement('div');
+                div.className = 'turma-card';
+                div.innerHTML = `
                     <input type="checkbox" id="${t.id}" value="${t.h} - ${t.n}">
                     <label for="${t.id}">
                         <div>
-                            <span class="turma-horario">${t.h}</span><br>
-                            <span class="turma-detalhe">${t.n}</span>
+                            <span class="turma-horario">${t.h}</span>
+                            <span class="turma-nivel">${t.n}</span>
                         </div>
-                        <span style="font-size:0.7rem; background:#eee; padding:3px 6px; border-radius:4px; font-weight:700;">${t.d}</span>
+                        <span class="badge-dia">${t.d}</span>
                     </label>
                 `;
-                cont.appendChild(item);
+                container.appendChild(div);
             });
         }
 
-        function finalizar() {
-            const nome = document.getElementById('nome').value;
-            const fone = document.getElementById('telefone').value;
-            const uni = document.querySelector('input[name="unidade"]:checked').value;
-            const sel = document.querySelectorAll('.turma-card input:checked');
+        function enviarWhatsApp() {
+            const nome = document.getElementById('nome').value.trim();
+            const fone = document.getElementById('telefone').value.trim();
+            const unidade = document.querySelector('input[name="unidade"]:checked').value;
+            const selecionados = document.querySelectorAll('.turma-card input:checked');
 
-            if(!nome || !fone || sel.length === 0) {
-                alert("Por favor, preencha seus dados e escolha o horário.");
+            if(!nome || !fone || selecionados.length === 0) {
+                alert("Por favor, preencha seu nome, telefone e escolha ao menos um horário!");
                 return;
             }
 
-            let tks = "";
-            sel.forEach(c => tks += `%0A- ${c.value}`);
-            const msg = `Olá! Me chamo *${nome}* e gostaria de agendar uma aula experimental na *Unidade ${uni}* nos horários:${tks}`;
-            window.open(`https://wa.me/5571987617926?text=${msg}`, '_blank');
+            let horariosTxt = "";
+            selecionados.forEach(s => horariosTxt += `%0A- ${s.value}`);
+
+            const mensagem = `Olá! Me chamo *${nome}* e gostaria de agendar uma aula experimental na *Unidade ${unidade}* nos seguintes horários:${horariosTxt}`;
+            
+            window.open(`https://wa.me/5571987617926?text=${mensagem}`, '_blank');
         }
 
-        document.addEventListener('DOMContentLoaded', atualizar);
+        // Inicia com a unidade padrão
+        document.addEventListener('DOMContentLoaded', carregarTurmas);
     </script>
 </body>
 </html>
