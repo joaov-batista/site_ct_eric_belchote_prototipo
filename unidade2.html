@@ -3,586 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adelba - CT Eric Belchote</title>
     <link rel="icon" href="./img/icon.jpg">
-    <title>Unidade Piatã - CT Eric Belchote</title>
-    <style>
-        /* Estilos compartilhados com a página principal */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-        }
-        
-        body {
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
-            padding-top: 70px;
-        }
-        
-        /* Cabeçalho */
-        .main-nav {
-            background-color: #1a3e2f;
-            color: white;
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .nav-logo {
-            color: white;
-            font-weight: 700;
-            font-size: 1.5rem;
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 0.5rem 0;
-            position: relative;
-            transition: color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            color: #d4af37;
-        }
-        
-        .nav-links a.active {
-            color: #d4af37;
-        }
-        
-        .nav-links a.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: #d4af37;
-        }
-        
-        .nav-mobile-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-        
-        /* Conteúdo Principal */
-        .unidade-container {
-            max-width: 1200px;
-            margin: 4rem auto 2rem;
-            padding: 0 2rem;
-        }
-        
-        .unidade-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        
-        .unidade-header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 0.8rem;
-            color: #1a3e2f;
-        }
-        
-        .unidade-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .unidade-info {
-            background-color: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-            height: fit-content;
-        }
-        
-        .unidade-info h2 {
-            color: #1a3e2f;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-        
-        .unidade-info p {
-            margin-bottom: 1rem;
-            line-height: 1.5;
-        }
-
-        /* Botão de Matrícula */
-        .btn-matricula {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background-color: #1a3e2f;
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 1rem;
-            transition: all 0.3s;
-        }
-        
-        .btn-matricula:hover {
-            background-color: #d4af37;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        
-        /* Carrossel */
-        .carrossel-container {
-            position: relative;
-            max-width: 800px;
-            margin: 2rem auto;
-            overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .carrossel {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
-        
-        .carrossel img {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-        
-        .carrossel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(26, 62, 47, 0.7);
-            color: white;
-            border: none;
-            padding: 0.8rem;
-            cursor: pointer;
-            font-size: 1.2rem;
-            z-index: 10;
-            transition: all 0.3s;
-        }
-        
-        .carrossel-btn:hover {
-            background-color: rgba(26, 62, 47, 0.9);
-        }
-        
-        .carrossel-btn.prev {
-            left: 0;
-            border-radius: 0 8px 8px 0;
-        }
-        
-        .carrossel-btn.next {
-            right: 0;
-            border-radius: 8px 0 0 8px;
-        }
-        
-        .carrossel-indicadores {
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            z-index: 10;
-        }
-        
-        .indicador {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: rgba(255,255,255,0.5);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .indicador.active {
-            background-color: white;
-        }
-        
-        .horarios-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-        }
-        
-        .horarios-table th, .horarios-table td {
-            padding: 0.6rem;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .horarios-table th {
-            background-color: #1a3e2f;
-            color: white;
-        }
-        
-        .horarios-table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        
-        /* Rodapé */
-        footer {
-            background-color: #1a3e2f;
-            color: white;
-            text-align: center;
-            padding: 1.5rem;
-            margin-top: 3rem;
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.2rem;
-            margin-bottom: 1rem;
-        }
-        
-        .social-links a {
-            color: white;
-            font-size: 1.3rem;
-            transition: color 0.3s;
-        }
-        
-        .social-links a:hover {
-            color: #d4af37;
-        }
-        
-        /* Botão do WhatsApp */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            background-color: #25D366;
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            transition: all 0.3s;
-            z-index: 100;
-        }
-        
-        .whatsapp-float:hover {
-            background-color: #128C7E;
-            transform: translateY(-3px);
-        }
-        
-        /* Responsivo */
-        @media (max-width: 768px) {
-            body {
-                padding-top: 60px;
-            }
-            
-            .nav-links {
-                position: fixed;
-                top: 60px;
-                left: 0;
-                right: 0;
-                background-color: #1a3e2f;
-                flex-direction: column;
-                gap: 0;
-                padding: 0.5rem 0;
-                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-                transition: clip-path 0.4s ease-out;
-            }
-            
-            .nav-links.active {
-                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-            }
-            
-            .nav-links a {
-                padding: 0.8rem 1.5rem;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
-            }
-            
-            .nav-mobile-btn {
-                display: block;
-            }
-            
-            .unidade-container {
-                margin-top: 1rem;
-                padding: 0 1rem;
-            }
-            
-            .unidade-header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .unidade-content {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            .unidade-info {
-                padding: 1.2rem;
-            }
-            
-            .carrossel-container {
-                margin: 1.5rem auto;
-            }
-            
-            .carrossel img {
-                height: 250px;
-            }
-            
-            .horarios-table {
-                font-size: 0.8rem;
-            }
-            
-            .horarios-table th, .horarios-table td {
-                padding: 0.5rem;
-            }
-            
-            .whatsapp-float {
-                width: 45px;
-                height: 45px;
-                font-size: 1.3rem;
-                bottom: 1rem;
-                right: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .unidade-header h1 {
-                font-size: 1.6rem;
-            }
-            
-            .unidade-info h2 {
-                font-size: 1.3rem;
-            }
-            
-            .carrossel img {
-                height: 200px;
-            }
-        }
-    </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS PADRONIZADO SENIOR (IDÊNTICO À UNIDADE 1) */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background-color: #f5f5f5; color: #333; line-height: 1.6; padding-top: 70px; }
+        .main-nav { background-color: #1a3e2f; color: white; padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { color: white; font-weight: 700; font-size: 1.5rem; text-decoration: none; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 600; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: #d4af37; }
+        .container { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
+        .header-unit { text-align: center; margin-bottom: 3rem; }
+        .header-unit h1 { font-size: 2.5rem; color: #1a3e2f; margin-bottom: 0.5rem; }
+        .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+        .info-card { background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .info-card h2 { color: #1a3e2f; margin-bottom: 1.5rem; font-size: 1.5rem; border-left: 4px solid #d4af37; padding-left: 15px; }
+        .horarios-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .horarios-table th { background: #1a3e2f; color: white; padding: 12px; text-align: left; }
+        .horarios-table td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+        .carousel-box { position: relative; border-radius: 12px; overflow: hidden; height: 400px; box-shadow: 0 4px 25px rgba(0,0,0,0.15); margin-top: 2rem; }
+        .carousel-inner { display: flex; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .carousel-item { min-width: 100%; height: 100%; }
+        .carousel-item img { width: 100%; height: 100%; object-fit: cover; }
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(26,62,47,0.8); color: white; border: none; padding: 18px; cursor: pointer; z-index: 10; border-radius: 50%; margin: 0 10px; }
+        .btn-cta-premium {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            background: linear-gradient(135deg, #FFC107 0%, #d4af37 100%);
+            color: #1a3e2f !important; padding: 20px 40px; border-radius: 50px;
+            text-decoration: none; font-weight: 800; font-size: 1.1rem; text-transform: uppercase;
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4); position: relative; overflow: hidden;
+            transition: all 0.4s ease; width: 100%; margin-top: 2rem;
+        }
+        .btn-cta-premium::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent); transform: skewX(-25deg); transition: 0.6s; }
+        .btn-cta-premium:hover::before { left: 150%; }
+        footer { background-color: #1a3e2f; color: white; text-align: center; padding: 3rem; margin-top: 5rem; }
+        .whatsapp-float { position: fixed; bottom: 2rem; right: 2rem; background-color: #25D366; color: white; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; z-index: 1000; }
+        @media (max-width: 768px) { .content-grid { grid-template-columns: 1fr; } }
+    </style>
 </head>
 <body>
-    <!-- Cabeçalho de Navegação -->
     <nav class="main-nav">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">CT Eric Belchote</a>
-            <div class="nav-links" id="navLinks">
-                <a href="unidade1.html">Unidade Stella Maris</a>
-                <a href="unidade2.html" class="active">Unidade Piatã</a>
+            <div class="nav-links">
+                <a href="unidade1.html">Stella Maris</a>
+                <a href="unidade2.html" class="active">Adelba</a>
                 <a href="matricula.html">Matricule-se</a>
             </div>
-            <button class="nav-mobile-btn" onclick="toggleMenu()">
-                <i class="fas fa-bars"></i>
-            </button>
         </div>
     </nav>
 
-    <!-- Conteúdo Principal -->
-    <main class="unidade-container">
-        <section class="unidade-header">
-            <h1>Unidade Piatã</h1>
-            <p>Excelência no Vôlei de Praia para Todas as Idades</p>
-            <a href="matricula.html" class="btn-matricula">
-                <i class="fas fa-edit"></i> Matricule-se agora
-            </a>
-        </section>
+    <div class="container">
+        <div class="header-unit">
+            <h1>Unidade ADELBA</h1>
+            <p style="color: #00A859; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">Arena Patamares Essencis</p>
+        </div>
 
-        <div class="unidade-content">
-            <div class="unidade-info">
-                <h2>Sobre a Unidade</h2>
-                <p>Nossa unidade em Piatã oferece uma estrutura completa para atletas iniciantes, intermediários e avançados.</p>
-                <p>Contamos com profissionais capacitados e equipamentos de qualidade, garantindo o desenvolvimento de cada aluno em todas as etapas da jornada esportiva.</p>
-                
-                <h2>Endereço</h2>
-                <p><i class="fas fa-phone"></i> <a href="https://www.google.com.br/maps/place/Costa+Verde+Tennis+Clube/@-12.9528951,-38.385765,17z/data=!4m6!3m5!1s0x71619e178966f69:0x6dbd98fc62738af1!8m2!3d-12.9528951!4d-38.385765!16s%2Fg%2F1ts3fthn?entry=ttu&g_ep=EgoyMDI1MDUwNS4wIKXMDSoASAFQAw%3D%3D"> Av. Orlando Gomes 323, Salvador, BA, 41650-010. <br> Costa Verde Tennis Clube</a></p>
-                <p><i class="fas fa-phone"></i> <a href="https://wa.me/557187617926?text=Olá,%20gostaria%20de%20mais%20informações%20sobre%20o%20vôlei!"> (71) 8761-7926</a></p>
-            </div>
-
-            <div class="unidade-info">
-                <h2>Horários das Turmas</h2>
+        <div class="content-grid">
+            <div class="info-card">
+                <h2>Grade de Treinos</h2>
                 <table class="horarios-table">
-                    <thead>
-                        <tr>
-                            <th>Dia</th>
-                            <th>Horário</th>
-                            <th>Nível</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>Turno</th><th>Horário</th><th>Categoria</th></tr></thead>
                     <tbody>
-                        <tr>
-                            <td>Segunda-feira</td>
-                            <td>19:00 - 20:00</td>
-                            <td>A partir de 16 anos</td>
-                        </tr>
-                        <tr>
-                            <td>Terça-feira</td>
-                            <td>06:00 - 07:00</td>
-                            <td>Avançado</td>
-                        </tr>
-                        <tr>
-                            <td>Terça-feira</td>
-                            <td>07:30 - 08:30</td>
-                            <td>A partir de 16 anos</td>
-                        </tr>
-                        <tr>
-                            <td>Terça-feira</td>
-                            <td>16:00 - 17:00</td>
-                            <td>De 10 até 15 anos</td>
-                        </tr>
-                        <tr>
-                            <td>Terça-feira</td>
-                            <td>17:00 - 19:00</td>
-                            <td>Intermediário</td>
-                        </tr>
-                        <tr>
-                            <td>Quarta-feira</td>
-                            <td>19:00 - 20:00</td>
-                            <td>A partir de 16 anos</td>
-                        </tr>
-                        <tr>
-                            <td>Quinta-feira</td>
-                            <td>06:00 - 07:00</td>
-                            <td>Avançado</td>
-                        </tr>
-                        <tr>
-                            <td>Quinta-feira</td>
-                            <td>07:30 - 08:00</td>
-                            <td>Intermediário</td>
-                        </tr>
-                        <tr>
-                            <td>Quinta-feira</td>
-                            <td>16:00 - 17:00</td>
-                            <td>De 10 até 15 anos</td>
-                        </tr>
-                        <tr>
-                            <td>Quinta-feira</td>
-                            <td>17:00 - 18:00</td>
-                            <td>Intermediário</td>
-                        </tr>
+                        <tr><td><strong>Manhã</strong></td><td>07h-08h | 08h-09h</td><td>Adultos (Inic./Interm.) <br><small style="color:#00A859; font-weight:700;">*Forte presença feminina</small></td></tr>
+                        <tr><td><strong>Tarde</strong></td><td>16h - 17h</td><td>KIDS (6-10 anos)</td></tr>
+                        <tr><td><strong>Tarde</strong></td><td>17h - 18h</td><td>ADOLESCENTES (Tática)</td></tr>
+                        <tr><td><strong>Noite</strong></td><td>18h - 19h</td><td>ADULTO INICIAÇÃO (Do Zero)</td></tr>
+                        <tr><td><strong>Noite</strong></td><td>19h-20h | 20h-21h</td><td>ADULTO INTERMEDIÁRIO</td></tr>
                     </tbody>
                 </table>
+                <a href="matricula.html" class="btn-cta-premium">
+                    <i class="fas fa-shuttle-cock"></i> QUERO ME MATRICULAR
+                </a>
+            </div>
+
+            <div class="info-card">
+                <h2>Localização & Contato</h2>
+                <p><i class="fas fa-map-marker-alt" style="color: #d4af37;"></i> 
+                   <a href="https://www.google.com/maps/search/?api=1&query=Clube+Adelba+Av+Tamburugy+Piatã+Salvador+BA" target="_blank" style="color: inherit; text-decoration: none; font-weight: 600;">
+                       Av. Tamburugy, sn - Piatã, Salvador - BA, 41680-440.
+                   </a>
+                </p>
+                <p style="margin-top: 1rem;"><i class="fas fa-phone-alt" style="color: #d4af37;"></i> (71) 98761-7926</p>
                 
-                <h2>Professores</h2>
-                <p><strong>Eric Belchote</strong> - Profissional formado e Ex Atleta</p>
-                <p><strong>Mario Angelo</strong> - Atleta profissional</p>
-            </div>
-        </div>
-
-        <div class="unidade-info">
-            <h2>Galeria</h2>
-            <div class="carrossel-container">
-                <div class="carrossel" id="carrossel">
-                    <img src="./img/jagua/escola de vôlei de praia salvador (3).jpg" alt="Academia Piatã">
-                    <img src="./img/jagua/escola de vôlei de praia salvador (2).jpg" alt="Treino avançado">
-                    <img src="./img/jagua/escola de vôlei de praia salvador.jpg" alt="Treino feminino">
+                <div class="carousel-box">
+                    <div class="carousel-inner" id="car-ad">
+                        <div class="carousel-item"><img src="./img/jagua/escola de vôlei de praia salvador.jpg"></div>
+                        <div class="carousel-item"><img src="./img/jagua/escola de vôlei de praia salvador (2).jpg"></div>
+                        <div class="carousel-item"><img src="./img/jagua/escola de vôlei de praia salvador (3).jpg"></div>
+                    </div>
+                    <button class="carousel-btn" style="left:0" onclick="move('car-ad', -1)"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn" style="right:0" onclick="move('car-ad', 1)"><i class="fas fa-chevron-right"></i></button>
                 </div>
-                <button class="carrossel-btn prev" onclick="moverCarrossel(-1)">&#10094;</button>
-                <button class="carrossel-btn next" onclick="moverCarrossel(1)">&#10095;</button>
-                <div class="carrossel-indicadores" id="indicadores"></div>
             </div>
         </div>
-    </main>
+    </div>
 
-    <footer>
-        <div class="social-links">
-            <a href="https://www.instagram.com/ctericbelchote/" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.tiktok.com/@ctericbelchote" target="_blank"><i class="fab fa-tiktok"></i></a>
-            <a href="https://www.youtube.com/@CtEricBelchote" target="_blank"><i class="fab fa-youtube"></i></a>
-            <a href="https://wa.me/557187617926?text=Olá,%20gostaria%20de%20mais%20informações%20sobre%20o%20vôlei!" target="_blank"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://www.facebook.com/ctericbelchote/" target="_blank"><i class="fab fa-facebook-f"></i></a>
-        </div>
-        <p>&copy; 2023 CT Eric Belchote - Todos os direitos reservados</p>
-    </footer>
-
-    <a href="https://wa.me/7187617926" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    <footer><p>&copy; 2026 CT Eric Belchote - Todos os direitos reservados</p></footer>
+    <a href="https://wa.me/5571987617926" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
     <script>
-        // Função para alternar o menu mobile
-        function toggleMenu() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
+        const idxs = {};
+        function move(id, dir) {
+            const inner = document.getElementById(id);
+            if (idxs[id] === undefined) idxs[id] = 0;
+            const total = inner.children.length;
+            idxs[id] = (idxs[id] + dir + total) % total;
+            inner.style.transform = `translateX(-${idxs[id] * 100}%)`;
         }
-
-        // Fechar menu quando clicar em um link (mobile)
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                const navLinks = document.getElementById('navLinks');
-                navLinks.classList.remove('active');
-            });
-        });
-
-        // Carrossel
-        let slideIndex = 0;
-        const slides = document.querySelectorAll('#carrossel img');
-        const indicadoresContainer = document.getElementById('indicadores');
-        
-        // Cria indicadores
-        slides.forEach((_, index) => {
-            const indicador = document.createElement('div');
-            indicador.classList.add('indicador');
-            if (index === 0) indicador.classList.add('active');
-            indicador.addEventListener('click', () => {
-                slideIndex = index;
-                atualizarCarrossel();
-            });
-            indicadoresContainer.appendChild(indicador);
-        });
-        
-        function moverCarrossel(n) {
-            slideIndex += n;
-            if (slideIndex >= slides.length) slideIndex = 0;
-            if (slideIndex < 0) slideIndex = slides.length - 1;
-            atualizarCarrossel();
-        }
-        
-        function atualizarCarrossel() {
-            const carrossel = document.getElementById('carrossel');
-            const indicadores = document.querySelectorAll('.indicador');
-            
-            carrossel.style.transform = `translateX(-${slideIndex * 100}%)`;
-            
-            indicadores.forEach((ind, index) => {
-                ind.classList.toggle('active', index === slideIndex);
-            });
-        }
-        
-        // Auto-avanço do carrossel
-        setInterval(() => moverCarrossel(1), 5000);
+        setInterval(() => move('car-ad', 1), 5000);
     </script>
 </body>
 </html>
