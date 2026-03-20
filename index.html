@@ -1,203 +1,794 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CT Eric Belchote | Escola de Vôlei de Praia</title>
-    <link rel="icon" href="./img/icon.jpg">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        /* CSS PADRONIZADO E RESPONSIVO */
-        :root {
-            --primary: #1a3e2f;
-            --accent: #d4af37;
-            --gold-gradient: linear-gradient(135deg, #FFC107 0%, #d4af37 100%);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CT Eric Belchote | Vôlei de Praia em Salvador</title>
+<link rel="icon" href="./img/icon.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --g:#1db954;--g2:#15a347;
+  --gold:#d4a843;--gold2:#f0c84a;
+  --dark:#061510;--off:#f3f9f5;
+  --gray:#6b7280;--lgray:#e2ede7;
+}
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{background:#fff;color:#111;font-family:'Inter',sans-serif;overflow-x:hidden}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body { background-color: #f5f5f5; color: #333; line-height: 1.6; padding-top: 70px; scroll-behavior: smooth; overflow-x: hidden; }
-        
-        /* NAVBAR RESPONSIVA */
-        .main-nav { background-color: var(--primary); color: white; padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
-        .nav-logo { color: white; font-weight: 700; font-size: 1.5rem; text-decoration: none; }
-        
-        .nav-links { display: flex; gap: 2rem; align-items: center; }
-        .nav-links a { color: white; text-decoration: none; font-weight: 600; transition: 0.3s; font-size: 0.9rem; }
-        .nav-links a:hover { opacity: 0.7; }
-        .nav-links a.active { border-bottom: 2px solid white; }
+/* ─ CURSOR (desktop only) ─ */
+@media(pointer:fine){
+  body{cursor:none}
+  #cur,#curR{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%)}
+  #cur{width:10px;height:10px;background:var(--g);mix-blend-mode:multiply;transition:width .2s,height .2s,background .2s}
+  #curR{width:34px;height:34px;border:1.5px solid var(--g);z-index:9998;opacity:.5;transition:width .3s,height .3s,border-color .3s,opacity .3s}
+}
+@media(pointer:coarse){#cur,#curR{display:none}}
 
-        .nav-mobile-btn { display: none; background: none; border: none; color: white; font-size: 1.8rem; cursor: pointer; }
+/* ─ LOADER ─ */
+#loader{position:fixed;inset:0;background:var(--dark);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;transition:opacity .9s,transform .9s}
+#loader.out{opacity:0;transform:scale(1.04);pointer-events:none}
+.l-brand{font-size:.85rem;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:1.8rem}
+.l-track{width:200px;height:2px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.l-fill{height:100%;width:0;background:linear-gradient(90deg,var(--g),var(--gold));border-radius:2px;transition:width 2s cubic-bezier(.4,0,.2,1)}
+.l-pct{font-size:.6rem;color:rgba(255,255,255,.22);margin-top:.5rem;letter-spacing:.1em}
 
-        /* HERO RESPONSIVO */
-        .hero { position: relative; width: 100%; height: 85vh; overflow: hidden; background: #000; }
-        .hero-inner { position: relative; width: 100%; height: 100%; }
-        .hero-item { position: absolute; width: 100%; height: 100%; opacity: 0; transition: 1.5s ease-in-out; }
-        .hero-item.active { opacity: 1; }
-        .hero-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
-        .hero-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; z-index: 10; padding: 2rem; }
-        .hero-overlay h1 { font-size: clamp(2rem, 8vw, 4rem); font-weight: 800; text-transform: uppercase; line-height: 1.1; }
-        .hero-overlay p { font-size: clamp(1rem, 4vw, 1.5rem); margin: 1rem 0 2.5rem; }
+/* ─ NAV ─ */
+nav{position:fixed;top:0;width:100%;z-index:1000;height:54px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;transition:background .4s,backdrop-filter .4s,box-shadow .4s}
+nav.sc{background:rgba(255,255,255,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 1px 0 rgba(0,0,0,.07)}
+.n-logo{display:flex;align-items:center;gap:.5rem;font-size:.9rem;font-weight:800;color:#fff;text-decoration:none;transition:color .3s}
+nav.sc .n-logo{color:#111}
+.n-dot{width:8px;height:8px;border-radius:50%;background:var(--g);flex-shrink:0}
+.n-links{display:flex;gap:2rem;list-style:none;align-items:center}
+.n-links a{color:rgba(255,255,255,.78);text-decoration:none;font-size:.78rem;font-weight:500;transition:color .25s}
+nav.sc .n-links a{color:#555}
+.n-links a:hover{color:var(--g)!important}
+.n-cta{background:var(--g)!important;color:#fff!important;padding:.38rem 1.1rem;border-radius:100px;font-weight:700!important;font-size:.74rem!important;box-shadow:0 4px 14px rgba(29,185,84,.3);transition:background .25s,transform .2s!important}
+.n-cta:hover{background:var(--g2)!important;transform:scale(1.05)!important}
+.n-ham{display:none;background:none;border:none;flex-direction:column;gap:5px;padding:6px;cursor:pointer}
+.n-ham span{display:block;width:22px;height:1.5px;background:#fff;border-radius:2px;transition:background .3s,transform .3s,opacity .3s}
+nav.sc .n-ham span{background:#111}
 
-        /* BOTÃO LUXO GLINT */
-        .btn-cta-luxo {
-            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-            background: var(--gold-gradient); color: var(--primary) !important; padding: 18px 40px; border-radius: 50px;
-            text-decoration: none; font-weight: 800; text-transform: uppercase;
-            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4); position: relative; overflow: hidden; transition: 0.4s;
-        }
-        .btn-cta-luxo::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent); transform: skewX(-25deg); transition: 0.6s; }
-        .btn-cta-luxo:hover::before { left: 150%; }
-        .btn-cta-luxo:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.6); }
+/* MOBILE FULLSCREEN MENU */
+.mob{display:none;position:fixed;inset:0;background:#fff;z-index:990;flex-direction:column;align-items:center;justify-content:center;gap:2rem;padding:2rem}
+.mob.open{display:flex}
+.mob a{font-size:clamp(1.6rem,8vw,2.4rem);font-weight:900;color:#111;text-decoration:none;letter-spacing:-.03em;transition:color .2s}
+.mob a:hover{color:var(--g)}
+.mob a.mob-cta{color:#fff;background:var(--g);padding:.6rem 2rem;border-radius:100px;font-size:1.2rem}
+.mob-x{position:absolute;top:1.4rem;right:1.4rem;background:none;border:none;font-size:1.5rem;cursor:pointer;color:#111;padding:.4rem;line-height:1}
 
-        .scroll-arrow { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: white; font-size: 2rem; z-index: 20; opacity: 0.8; cursor: pointer; animation: bounce 2s infinite; }
+/* ═══════════════════════
+   HERO — 100svh + VFX
+═══════════════════════ */
+#hero{
+  position:relative;
+  height:100svh;min-height:600px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  background:linear-gradient(155deg,#030e07 0%,#061510 25%,#0d2b18 55%,#1a5732 100%);
+}
+/* Three.js canvas — fills entire hero */
+#hero-canvas{position:absolute;inset:0;z-index:1;width:100%;height:100%}
 
-        /* CONTEÚDO */
-        main { max-width: 1200px; margin: 3rem auto; padding: 0 1.5rem; }
-        .section-card { background: white; padding: clamp(1.5rem, 5vw, 3rem); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 4rem; text-align: center; }
+/* VFX 1 — film grain noise */
+.h-noise{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.07'/%3E%3C/svg%3E");
+  background-size:180px;
+  animation:grain-move 0.5s steps(1) infinite;
+}
+@keyframes grain-move{
+  0%{background-position:0 0}25%{background-position:-20px -30px}
+  50%{background-position:15px 10px}75%{background-position:-10px 25px}100%{background-position:5px -15px}
+}
 
-        /* GRID UNIDADES RESPONSIVO */
-        .units-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; }
-        .unit-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0,0,0,0.08); transition: 0.3s; border: 1px solid #eee; }
-        .unit-carousel { position: relative; height: 300px; overflow: hidden; }
-        .unit-carousel-inner { display: flex; height: 100%; transition: transform 0.6s ease; }
-        .unit-img { min-width: 100%; height: 100%; object-fit: cover; }
-        .unit-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(26,62,47,0.7); color: white; border: none; padding: 12px; cursor: pointer; z-index: 5; border-radius: 50%; }
+/* VFX 3 — vignette */
+.h-vignette{
+  position:absolute;inset:0;z-index:4;pointer-events:none;
+  background:radial-gradient(ellipse 80% 80% at 50% 50%,transparent 50%,rgba(0,0,0,.55) 100%);
+}
 
-        /* INSTAGRAM RESPONSIVO */
-        #insta-section { background: white; padding: clamp(2rem, 5vw, 5rem) 1.5rem; border-radius: 15px; display: flex; flex-wrap: wrap; align-items: center; gap: 3rem; margin-top: 4rem; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-        .insta-text { flex: 1 1 300px; }
-        .insta-frame { flex: 1 1 300px; height: 500px; border: 8px solid #333; border-radius: 35px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
-        .insta-frame iframe { width: 100%; height: 100%; border: none; }
+/* CONTENT */
+.h-content{
+  position:relative;z-index:6;
+  text-align:center;
+  padding:0 1.5rem;
+  width:100%;max-width:1000px;
+  pointer-events:none;
+}
+.h-chip{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--g);background:rgba(29,185,84,.1);
+  padding:.3rem .9rem;border-radius:100px;border:1px solid rgba(29,185,84,.22);
+  margin-bottom:1.2rem;
+  opacity:0;animation:fup .7s .3s forwards;
+}
+@keyframes fup{to{opacity:1}}
+@keyframes sup{to{opacity:1;transform:translateY(0)}}
 
-        footer { background-color: var(--primary); color: white; text-align: center; padding: 3rem 1.5rem; }
-        .whatsapp-float { position: fixed; bottom: 1.5rem; right: 1.5rem; background-color: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+/* Name line */
+.h-name{
+  font-size:clamp(.75rem,1.8vw,1.1rem);
+  font-weight:700;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:.3rem;
+  opacity:0;animation:fup .7s .35s forwards;
+}
 
-        /* MEDIA QUERIES PARA MOBILE */
-        @media (max-width: 768px) {
-            .nav-mobile-btn { display: block; }
-            .nav-links {
-                position: fixed; top: 70px; left: 0; width: 100%; background: var(--primary);
-                flex-direction: column; padding: 2rem; gap: 1.5rem; transform: translateY(-150%);
-                transition: 0.4s ease-in-out; opacity: 0;
-            }
-            .nav-links.active { transform: translateY(0); opacity: 1; }
-            .hero { height: 70vh; }
-            .scroll-arrow { font-size: 1.5rem; }
-            .btn-cta-luxo { width: 100%; padding: 15px 20px; font-size: 1rem; }
-        }
+.h-h1{
+  font-size:clamp(3.4rem,11vw,10.5rem);
+  font-weight:900;line-height:.88;letter-spacing:-.04em;
+  color:#fff;
+}
+.h-h1 .ln{display:block;opacity:0;transform:translateY(60px)}
+.h-h1 .ln:nth-child(1){animation:sup .9s .45s cubic-bezier(.16,1,.3,1) forwards}
+.h-h1 .ln:nth-child(2){animation:sup .9s .6s  cubic-bezier(.16,1,.3,1) forwards;color:var(--g)}
+.h-h1 .ln:nth-child(3){animation:sup .9s .75s cubic-bezier(.16,1,.3,1) forwards}
 
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); } 40% { transform: translateX(-50%) translateY(-12px); } 60% { transform: translateX(-50%) translateY(-6px); } }
-    </style>
+.h-sub{
+  font-size:clamp(.82rem,1.8vw,1.05rem);
+  color:rgba(255,255,255,.52);
+  max-width:420px;margin:.9rem auto 1.8rem;line-height:1.65;
+  opacity:0;animation:fup .7s 1s forwards;
+}
+.h-btns{
+  display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;
+  pointer-events:all;
+  opacity:0;animation:fup .7s 1.15s forwards;
+}
+.btn-p{display:inline-flex;align-items:center;gap:.5rem;background:var(--g);color:#fff;padding:.82rem 1.9rem;border-radius:100px;font-weight:700;font-size:.83rem;text-decoration:none;box-shadow:0 8px 28px rgba(29,185,84,.4);transition:background .25s,transform .2s,box-shadow .25s;white-space:nowrap}
+.btn-p:hover{background:var(--g2);transform:translateY(-2px);box-shadow:0 14px 36px rgba(29,185,84,.5)}
+.btn-s{display:inline-flex;align-items:center;gap:.5rem;border:1.5px solid rgba(255,255,255,.28);color:#fff;padding:.82rem 1.9rem;border-radius:100px;font-weight:600;font-size:.83rem;text-decoration:none;background:rgba(255,255,255,.07);backdrop-filter:blur(8px);transition:border-color .25s,transform .2s;white-space:nowrap}
+.btn-s:hover{border-color:rgba(255,255,255,.7);transform:translateY(-2px)}
+
+/* HERO STATS — bottom right, hidden on mobile */
+.h-stats{position:absolute;bottom:2.5rem;right:2rem;z-index:6;display:flex;flex-direction:column;gap:1rem;align-items:flex-end;opacity:0;animation:fup .7s 1.4s forwards}
+.hs-num{font-size:1.8rem;font-weight:900;color:#fff;line-height:1;letter-spacing:-.04em}
+.hs-lbl{font-size:.54rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.26)}
+
+/* SCROLL ARROW — minimalista, bouncing */
+.sc-arrow{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  z-index:6;display:flex;flex-direction:column;align-items:center;gap:.4rem;
+  text-decoration:none;opacity:0;animation:fup 1s 2.2s forwards;
+}
+.sc-arrow-circle{
+  width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(4px);
+  background:rgba(255,255,255,.04);
+  animation:arrow-bob 2.4s ease-in-out infinite;
+}
+.sc-arrow-circle svg{width:13px;height:13px;stroke:rgba(255,255,255,.55);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+@keyframes arrow-bob{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(6px)}
+}
+
+/* ─ MARQUEE ─ */
+.mq{background:var(--g);overflow:hidden;padding:.85rem 0}
+.mq-track{display:flex;gap:2.5rem;white-space:nowrap;animation:mq 22s linear infinite}
+.mq-track span{font-size:.9rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;flex-shrink:0;opacity:.9}
+.mq-track .sep{opacity:.35}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ─ SHARED ─ */
+.sp{padding:6rem 0}
+.c{max-width:1160px;margin:0 auto;padding:0 2rem}
+.sl{display:inline-flex;align-items:center;gap:.5rem;font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:1rem}
+.sl::before{content:'';width:18px;height:1.5px;background:var(--g);border-radius:2px;display:block}
+.st{font-size:clamp(2rem,5vw,3.8rem);font-weight:900;letter-spacing:-.04em;line-height:1;color:#111}
+.st em{font-style:normal;color:var(--g)}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rv.on{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+/* ─ ABOUT ─ */
+#about{background:#fff}
+.ab-g{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.ab-vis{position:relative}
+.ab-main{border-radius:20px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 28px 64px rgba(0,0,0,.1)}
+.ab-main img,.ab-acc img{width:100%;height:100%;object-fit:cover;display:block}
+.ab-acc{position:absolute;bottom:-1.5rem;right:-1.5rem;width:50%;aspect-ratio:1;border-radius:16px;overflow:hidden;box-shadow:0 18px 44px rgba(0,0,0,.12);border:4px solid #fff}
+.ab-badge{position:absolute;top:1.5rem;left:-1rem;background:var(--g);color:#fff;border-radius:14px;padding:.85rem 1.1rem;box-shadow:0 10px 28px rgba(29,185,84,.38);text-align:center}
+.ab-bn{font-size:1.7rem;font-weight:900;line-height:1}
+.ab-bt{font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;opacity:.85;margin-top:.1rem}
+.ab-desc{font-size:.98rem;line-height:1.75;color:#555;margin:1.5rem 0 2rem}
+.pills{display:flex;flex-wrap:wrap;gap:.5rem}
+.pill{display:inline-flex;align-items:center;gap:.35rem;background:var(--off);color:#222;padding:.4rem .8rem;border-radius:100px;font-size:.75rem;font-weight:600;border:1px solid var(--lgray)}
+.pill i{color:var(--g);font-size:.7rem}
+
+/* ─ UNIDADES ─ */
+#unidades{background:var(--off)}
+.u-hdr{text-align:center;margin-bottom:3.5rem}
+.u-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.u-card{background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.06);transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s}
+.u-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.1)}
+.u-iw{position:relative;height:260px;overflow:hidden}
+.u-iw img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1);display:block}
+.u-card:hover .u-iw img{transform:scale(1.05)}
+.u-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.45) 0%,transparent 55%)}
+.u-num{position:absolute;top:.9rem;right:.9rem;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:#fff}
+.u-body{padding:1.6rem}
+.u-tag{display:inline-flex;align-items:center;gap:.28rem;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g);background:rgba(29,185,84,.08);padding:.26rem .65rem;border-radius:100px;margin-bottom:.8rem}
+.u-name{font-size:1.5rem;font-weight:800;letter-spacing:-.03em;color:#111;margin-bottom:.22rem}
+.u-sub{font-size:.78rem;color:var(--gray);margin-bottom:1.1rem}
+.u-hrs{display:flex;flex-direction:column;margin-bottom:1.3rem}
+.u-hr{display:flex;justify-content:space-between;align-items:center;padding:.45rem 0;border-bottom:1px solid #f0f0f0;font-size:.8rem}
+.u-hr:last-child{border-bottom:none}
+.u-time{font-weight:700;color:#111}
+.u-niv{color:var(--gray)}
+.u-lnk{display:inline-flex;align-items:center;gap:.45rem;color:var(--g);font-size:.78rem;font-weight:700;text-decoration:none;transition:gap .25s}
+.u-lnk:hover{gap:.85rem}
+.u-arr{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--g);display:flex;align-items:center;justify-content:center;font-size:.6rem;transition:background .25s,color .25s}
+.u-lnk:hover .u-arr{background:var(--g);color:#fff}
+
+/* ─ GRADE ─ */
+#grade{background:#fff}
+.g-hdr{text-align:center;margin-bottom:2.8rem}
+.g-tabs{display:inline-flex;background:#f0f0f0;border-radius:100px;padding:.28rem;margin-bottom:2rem}
+.g-tab{padding:.45rem 1.5rem;border-radius:100px;font-size:.78rem;font-weight:600;border:none;background:transparent;cursor:pointer;color:#888;transition:all .25s}
+.g-tab.active{background:#fff;color:#111;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.g-wrap{display:flex;flex-direction:column;align-items:center}
+.g-panel{display:none;width:100%;max-width:800px}
+.g-panel.active{display:block}
+.g-tbl{width:100%;border-collapse:separate;border-spacing:0;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.07);border:1px solid #e8e8e8}
+.g-tbl thead{background:var(--g)}
+.g-tbl th{color:#fff;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:1rem 1.2rem;text-align:left}
+.g-tbl tbody tr{background:#fff;transition:background .2s}
+.g-tbl tbody tr:nth-child(even){background:#fafafa}
+.g-tbl tbody tr:hover{background:#f0fdf4}
+.g-tbl td{padding:1rem 1.2rem;font-size:.85rem;border-bottom:1px solid #f0f0f0}
+.g-tbl tbody tr:last-child td{border-bottom:none}
+.td-t{font-size:1.05rem;font-weight:800;letter-spacing:-.02em;color:#111}
+.td-n{font-weight:700;color:#111}
+.td-p{color:var(--gray);font-size:.78rem}
+.dw{display:inline-flex;gap:.25rem;flex-wrap:wrap}
+.dia{background:rgba(29,185,84,.1);color:var(--g2);font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .55rem;border-radius:100px}
+.g-cta{text-align:center;margin-top:2rem}
+.g-info-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2.5rem;max-width:800px;margin-left:auto;margin-right:auto}
+.g-info-box{background:var(--off);border:1px solid var(--lgray);border-radius:14px;padding:1.2rem;text-align:center}
+.gi-num{font-size:1.8rem;font-weight:900;color:var(--g);letter-spacing:-.03em;line-height:1}
+.gi-lbl{font-size:.68rem;font-weight:600;color:var(--gray);margin-top:.3rem}
+
+/* ─ INSTAGRAM ─ */
+#instagram{background:var(--off)}
+.ig-grid{display:grid;grid-template-columns:1fr 1fr;gap:4.5rem;align-items:center}
+.ig-phone{position:relative;width:240px;margin:0 auto}
+.ig-frame{aspect-ratio:.46;border-radius:40px;border:6px solid #1c1c1e;overflow:hidden;box-shadow:0 36px 90px rgba(0,0,0,.22),0 0 0 1px #2c2c2e;background:#000;position:relative}
+.ig-frame::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:70px;height:20px;background:#1c1c1e;border-radius:0 0 14px 14px;z-index:10}
+.ig-frame iframe{width:100%;height:100%;border:none;border-radius:34px}
+.ig-glow{position:absolute;inset:-22px;border-radius:55px;background:radial-gradient(circle,rgba(29,185,84,.12) 0%,transparent 70%);pointer-events:none}
+.ig-desc{font-size:.98rem;line-height:1.72;color:#555;margin:1.2rem 0 2rem}
+.btn-dk{display:inline-flex;align-items:center;gap:.5rem;background:#111;color:#fff;padding:.82rem 1.8rem;border-radius:100px;font-weight:700;font-size:.82rem;text-decoration:none;transition:background .25s,transform .2s}
+.btn-dk:hover{background:#333;transform:translateY(-2px)}
+
+/* ─ CTA ─ */
+#cta{background:linear-gradient(160deg,var(--dark) 0%,#0d2b18 45%,#1a5732 100%);position:relative;overflow:hidden}
+#cta-canvas{position:absolute;inset:0;z-index:1;pointer-events:none;width:100%;height:100%}
+.cta-in{position:relative;z-index:2;text-align:center;padding:8rem 2rem}
+.cta-chip{display:inline-flex;align-items:center;gap:.5rem;font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--g);background:rgba(29,185,84,.1);padding:.3rem .9rem;border-radius:100px;border:1px solid rgba(29,185,84,.24);margin-bottom:1.8rem}
+.cta-title{font-size:clamp(3rem,9vw,7rem);font-weight:900;letter-spacing:-.04em;line-height:.94;color:#fff;margin-bottom:1.4rem}
+.cta-title em{font-style:normal;color:var(--g)}
+.cta-sub{font-size:1.05rem;color:rgba(255,255,255,.48);margin-bottom:2.8rem;max-width:460px;margin-left:auto;margin-right:auto;line-height:1.65}
+.cta-btns{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap}
+.btn-cp{display:inline-flex;align-items:center;gap:.5rem;background:var(--g);color:#fff;padding:1rem 2.5rem;border-radius:100px;font-weight:700;font-size:.92rem;text-decoration:none;box-shadow:0 8px 32px rgba(29,185,84,.4);transition:background .25s,transform .2s}
+.btn-cp:hover{background:var(--g2);transform:translateY(-3px)}
+.btn-cs{display:inline-flex;align-items:center;gap:.5rem;border:1.5px solid rgba(255,255,255,.28);color:#fff;padding:1rem 2.5rem;border-radius:100px;font-weight:600;font-size:.92rem;text-decoration:none;background:rgba(255,255,255,.05);backdrop-filter:blur(8px);transition:border-color .25s,transform .2s}
+.btn-cs:hover{border-color:rgba(255,255,255,.75);transform:translateY(-3px)}
+
+/* ─ FOOTER ─ */
+footer{background:#061510;padding:4rem 0 2rem}
+.f-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.f-logo{font-size:1rem;font-weight:800;color:#fff;margin-bottom:.7rem}
+.f-tag{font-size:.8rem;color:rgba(255,255,255,.28);line-height:1.6;max-width:220px}
+.f-soc{display:flex;gap:.55rem;margin-top:1rem}
+.f-soc a{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.35);font-size:.8rem;text-decoration:none;transition:border-color .25s,color .25s}
+.f-soc a:hover{border-color:var(--g);color:var(--g)}
+.f-col h5{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:1.1rem;font-weight:700}
+.f-col ul{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.f-col ul a{color:rgba(255,255,255,.3);font-size:.8rem;text-decoration:none;transition:color .25s}
+.f-col ul a:hover{color:rgba(255,255,255,.8)}
+.f-bot{display:flex;justify-content:space-between;align-items:center;padding-top:1.8rem;border-top:1px solid rgba(255,255,255,.05);font-size:.7rem;color:rgba(255,255,255,.17);flex-wrap:wrap;gap:1rem}
+
+.wa{position:fixed;bottom:1.5rem;right:1.5rem;width:50px;height:50px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.35rem;text-decoration:none;z-index:900;box-shadow:0 6px 20px rgba(37,211,102,.38);transition:transform .25s}
+.wa:hover{transform:scale(1.1)}
+.wa::before{content:'';position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(37,211,102,.28);animation:wap 2s ease-in-out infinite}
+@keyframes wap{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0;transform:scale(1.45)}}
+
+/* ══════════════════
+   RESPONSIVE
+══════════════════ */
+/* TABLET */
+@media(max-width:900px){
+  .n-links{display:none}
+  .n-ham{display:flex}
+  .ab-g{grid-template-columns:1fr;gap:3rem}
+  .ab-vis{max-width:480px;margin:0 auto}
+  .ig-grid{grid-template-columns:1fr;gap:3rem}
+  .ig-phone{order:-1}
+  .u-grid{grid-template-columns:1fr}
+  .g-info-row{grid-template-columns:1fr 1fr}
+  .f-grid{grid-template-columns:1fr;gap:2rem}
+  .f-bot{flex-direction:column;text-align:center}
+  .h-stats{display:none}
+}
+
+/* MOBILE */
+@media(max-width:600px){
+  /* nav */
+  nav{padding:0 1rem;height:50px}
+  .n-logo{font-size:.82rem}
+
+  /* hero — full screen, safe area */
+  #hero{height:100svh;min-height:0}
+  .h-content{padding:0 1.2rem;max-width:100%}
+  .h-chip{font-size:.52rem;padding:.25rem .7rem;letter-spacing:.15em;margin-bottom:.8rem}
+  .h-name{font-size:.6rem;letter-spacing:.22em;margin-bottom:.2rem}
+  .h-h1{font-size:clamp(2.9rem,14.5vw,5rem);letter-spacing:-.03em;line-height:.91}
+  /* no chromatic on mobile — expensive */
+  .h-h1::before,.h-h1::after{display:none}
+  .h-sub{font-size:.82rem;max-width:100%;margin:.75rem auto 1.4rem;padding:0 .3rem}
+  .h-btns{flex-direction:column;align-items:stretch;gap:.55rem;padding:0}
+  .btn-p,.btn-s{width:100%;justify-content:center;padding:.8rem 1.2rem;font-size:.82rem}
+  .h-stats{display:none}
+  .sc-arrow{bottom:1.5rem}
+
+  /* marquee smaller */
+  .mq-track span{font-size:.78rem}
+  .mq-track .sep{display:none}
+
+  /* sections */
+  .sp{padding:3.5rem 0}
+  .c{padding:0 1.1rem}
+
+  /* about */
+  .ab-g{grid-template-columns:1fr;gap:2.2rem}
+  .ab-vis{max-width:100%;margin:0}
+  .ab-main{border-radius:16px}
+  .ab-acc{width:42%;right:-.8rem;bottom:-.8rem;border-width:3px}
+  .ab-badge{left:-.3rem;padding:.7rem .9rem}
+  .ab-bn{font-size:1.4rem}
+  .ab-desc{font-size:.9rem;margin:1.2rem 0 1.5rem}
+  .pills{gap:.4rem}
+  .pill{font-size:.72rem;padding:.35rem .7rem}
+
+  /* unidades */
+  .u-iw{height:210px}
+  .u-name{font-size:1.3rem}
+  .u-body{padding:1.2rem}
+
+  /* grade */
+  .g-tabs{width:100%}
+  .g-tab{flex:1;padding:.42rem .5rem;font-size:.72rem}
+  .g-info-row{grid-template-columns:1fr;gap:.6rem;margin-bottom:1.8rem}
+  .gi-num{font-size:1.5rem}
+  /* hide "público" on small screens — too cramped */
+  .g-tbl th:nth-child(3),.g-tbl td:nth-child(3){display:none}
+  .g-tbl th{padding:.75rem .8rem;font-size:.55rem}
+  .g-tbl td{padding:.75rem .8rem;font-size:.82rem}
+  .td-t{font-size:.9rem}
+
+  /* instagram */
+  .ig-grid{gap:2.5rem}
+  .ig-phone{width:200px}
+
+  /* cta */
+  .cta-in{padding:4.5rem 1.2rem}
+  .cta-title{font-size:clamp(2.5rem,13vw,4.5rem)}
+  .cta-btns{flex-direction:column;align-items:stretch;padding:0 .5rem;gap:.65rem}
+  .btn-cp,.btn-cs{width:100%;justify-content:center;padding:.9rem 1.5rem;font-size:.85rem}
+
+  /* footer */
+  .f-grid{gap:1.8rem}
+  .f-bot{flex-direction:column;text-align:center;gap:.5rem;font-size:.65rem}
+
+  /* wa button — smaller on mobile, keep out of thumb zone */
+  .wa{width:44px;height:44px;font-size:1.2rem;bottom:1.2rem;right:1.2rem}
+}
+</style>
 </head>
 <body>
 
-    <nav class="main-nav">
-        <div class="nav-container">
-            <a href="index.html" class="nav-logo">CT Eric Belchote</a>
-            <button class="nav-mobile-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
-            <div class="nav-links" id="navLinks">
-                <a href="unidade1.html">Stella Maris</a>
-                <a href="unidade2.html">Adelba</a>
-                <a href="matricula.html">Matricule-se</a>
-            </div>
+<div id="cur"></div><div id="curR"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="l-brand">CT Eric Belchote</div>
+  <div class="l-track"><div class="l-fill" id="l-fill"></div></div>
+  <div class="l-pct" id="l-pct">0%</div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="n-logo"><div class="n-dot"></div>CT Eric Belchote</a>
+  <ul class="n-links">
+    <li><a href="unidade1.html">Stella Maris</a></li>
+    <li><a href="unidade2.html">Adelba</a></li>
+    <li><a href="#grade">Horários</a></li>
+    <li><a href="matricula.html" class="n-cta">Aula Grátis</a></li>
+  </ul>
+  <button class="n-ham" id="ham" onclick="openMob()"><span></span><span></span><span></span></button>
+</nav>
+<div class="mob" id="mob">
+  <button class="mob-x" onclick="closeMob()"><i class="fas fa-times"></i></button>
+  <a href="unidade1.html" onclick="closeMob()">Stella Maris</a>
+  <a href="unidade2.html" onclick="closeMob()">Adelba</a>
+  <a href="#grade" onclick="closeMob()">Horários</a>
+  <a href="matricula.html" class="mob-cta" onclick="closeMob()">Aula Grátis</a>
+</div>
+
+<!-- HERO — 100svh -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="h-noise"></div>
+  <div class="h-vignette"></div>
+
+  <div class="h-content">
+    <div class="h-chip">Salvador · Bahia · Vôlei de Praia</div>
+    <div class="h-name">CT Eric Belchote</div>
+    <h1 class="h-h1">
+      <span class="ln">A ELITE</span>
+      <span class="ln">DO VÔLEI</span>
+      <span class="ln">DE PRAIA</span>
+    </h1>
+    <p class="h-sub">Metodologia profissional para iniciantes e atletas. Duas unidades em Salvador com treinos todos os dias.</p>
+    <div class="h-btns">
+      <a href="matricula.html" class="btn-p"><i class="fas fa-volleyball-ball"></i> Aula Experimental Grátis</a>
+      <a href="#unidades" class="btn-s">Ver Unidades <i class="fas fa-arrow-down"></i></a>
+    </div>
+  </div>
+
+  <!-- Stats — desktop only, no mini ball -->
+  <div class="h-stats">
+    <div><div class="hs-num">2</div><div class="hs-lbl">Unidades</div></div>
+    <div><div class="hs-num">100+</div><div class="hs-lbl">Alunos</div></div>
+    <div><div class="hs-num">5+</div><div class="hs-lbl">Anos</div></div>
+  </div>
+
+  <!-- SETA MINIMALISTA -->
+  <a href="#about" class="sc-arrow">
+    <div class="sc-arrow-circle">
+      <svg viewBox="0 0 14 14"><polyline points="2,4 7,10 12,4"/></svg>
+    </div>
+  </a>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq"><div class="mq-track">
+  <span>Vôlei de Praia</span><span class="sep">✦</span><span>Salvador</span><span class="sep">✦</span>
+  <span>Stella Maris</span><span class="sep">✦</span><span>Adelba</span><span class="sep">✦</span>
+  <span>Aula Grátis</span><span class="sep">✦</span><span>Kids · Teens · Adultos</span><span class="sep">✦</span>
+  <span>CT Eric Belchote</span><span class="sep">✦</span>
+  <span>Vôlei de Praia</span><span class="sep">✦</span><span>Salvador</span><span class="sep">✦</span>
+  <span>Stella Maris</span><span class="sep">✦</span><span>Adelba</span><span class="sep">✦</span>
+  <span>Aula Grátis</span><span class="sep">✦</span><span>Kids · Teens · Adultos</span><span class="sep">✦</span>
+  <span>CT Eric Belchote</span><span class="sep">✦</span>
+</div></div>
+
+<!-- ABOUT -->
+<section id="about" class="sp">
+  <div class="c"><div class="ab-g">
+    <div class="ab-vis rv">
+      <div class="ab-main"><img src="./img/cepe/escola de vôlei de praia salvador stella maris (2).jpg" alt="Treino CT Eric Belchote"></div>
+      <div class="ab-acc"><img src="./img/jagua/escola de vôlei de praia salvador.jpg" alt="Unidade Adelba"></div>
+      <div class="ab-badge"><div class="ab-bn">5+</div><div class="ab-bt">Anos</div></div>
+    </div>
+    <div>
+      <div class="sl rv">Nossa Filosofia</div>
+      <h2 class="st rv d1">Evolua<br>na <em>Areia</em></h2>
+      <p class="ab-desc rv d2">No CT Eric Belchote, unimos técnica profissional, disciplina e paixão pelo vôlei de praia. Do primeiro toque até a competição, nossa metodologia transforma atletas de todos os níveis em campeões na areia.</p>
+      <div class="pills rv d3">
+        <span class="pill"><i class="fas fa-star"></i> Metodologia Pro</span>
+        <span class="pill"><i class="fas fa-users"></i> Todas as Idades</span>
+        <span class="pill"><i class="fas fa-map-marker-alt"></i> 2 Unidades</span>
+        <span class="pill"><i class="fas fa-volleyball-ball"></i> Desde 2020</span>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- UNIDADES -->
+<section id="unidades" class="sp" style="background:var(--off)">
+  <div class="c">
+    <div class="u-hdr">
+      <div class="sl rv" style="justify-content:center">Onde Treinar</div>
+      <h2 class="st rv d1">Nossas <em>Unidades</em></h2>
+    </div>
+    <div class="u-grid">
+      <div class="u-card rv d1">
+        <div class="u-iw"><img src="./img/cepe/escola de vôlei de praia salvador stella maris.jpg" alt="Stella Maris"><div class="u-ov"></div><div class="u-num">01</div></div>
+        <div class="u-body">
+          <div class="u-tag">Quartas e Sextas</div>
+          <div class="u-name">Stella Maris</div>
+          <div class="u-sub">Clube CEPE · Rua Missionário Otto Nelson, 640</div>
+          <div class="u-hrs">
+            <div class="u-hr"><span class="u-time">06–07h</span><span class="u-niv">Avançado</span></div>
+            <div class="u-hr"><span class="u-time">07–08h</span><span class="u-niv">Iniciante e Intermediário</span></div>
+            <div class="u-hr"><span class="u-time">16–17h</span><span class="u-niv">Kids (6–10 anos)</span></div>
+            <div class="u-hr"><span class="u-time">17–18h</span><span class="u-niv">Adolescente e Adulto</span></div>
+          </div>
+          <a href="unidade1.html" class="u-lnk">Ver detalhes <span class="u-arr"><i class="fas fa-arrow-right"></i></span></a>
         </div>
-    </nav>
-
-    <header class="hero">
-        <div class="hero-inner">
-            <div class="hero-item active"><img src="./img/banner/vôlei de praia salvador (2).jpg"></div>
-            <div class="hero-item"><img src="./img/jagua/escola de vôlei de praia salvador (2).jpg"></div>
+      </div>
+      <div class="u-card rv d2">
+        <div class="u-iw"><img src="./img/jagua/escola de vôlei de praia salvador (2).jpg" alt="Adelba Piatã"><div class="u-ov"></div><div class="u-num">02</div></div>
+        <div class="u-body">
+          <div class="u-tag">Segunda a Sexta</div>
+          <div class="u-name">Adelba</div>
+          <div class="u-sub">Arena Patamares · Av. Tamburugy, sn – Piatã</div>
+          <div class="u-hrs">
+            <div class="u-hr"><span class="u-time">07–09h</span><span class="u-niv">Manhã — Adultos</span></div>
+            <div class="u-hr"><span class="u-time">16–17h</span><span class="u-niv">Kids (6–10 anos)</span></div>
+            <div class="u-hr"><span class="u-time">17–19h</span><span class="u-niv">Adolescentes e Adultos</span></div>
+            <div class="u-hr"><span class="u-time">19–21h</span><span class="u-niv">Intermediário Noturno</span></div>
+          </div>
+          <a href="unidade2.html" class="u-lnk">Ver detalhes <span class="u-arr"><i class="fas fa-arrow-right"></i></span></a>
         </div>
-        <div class="hero-overlay">
-            <h1>CT Eric Belchote</h1>
-            <p>A ELITE DO VÔLEI DE PRAIA EM SALVADOR</p>
-            <a href="matricula.html" class="btn-cta-luxo">Agendar Aula Gratuita</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GRADE -->
+<section id="grade" class="sp">
+  <div class="c">
+    <div class="g-hdr">
+      <div class="sl rv" style="justify-content:center">Grade de Aulas</div>
+      <h2 class="st rv d1">Horários <em>Completos</em></h2>
+    </div>
+    <div class="g-info-row rv d1">
+      <div class="g-info-box"><div class="gi-num">9</div><div class="gi-lbl">Turmas disponíveis</div></div>
+      <div class="g-info-box"><div class="gi-num">2</div><div class="gi-lbl">Unidades em Salvador</div></div>
+      <div class="g-info-box"><div class="gi-num">6–21h</div><div class="gi-lbl">Horário de funcionamento</div></div>
+    </div>
+    <div class="g-wrap rv d2">
+      <div class="g-tabs">
+        <button class="g-tab active" onclick="switchTab('sm')">Stella Maris</button>
+        <button class="g-tab" onclick="switchTab('ad')">Adelba</button>
+      </div>
+      <div class="g-panel active" id="p-sm">
+        <table class="g-tbl">
+          <thead><tr><th>Horário</th><th>Nível</th><th>Público</th><th>Dias</th></tr></thead>
+          <tbody>
+            <tr><td class="td-t">06–07h</td><td class="td-n">Avançado</td><td class="td-p">Adultos com experiência</td><td><div class="dw"><span class="dia">Qua</span><span class="dia">Sex</span></div></td></tr>
+            <tr><td class="td-t">07–08h</td><td class="td-n">Iniciante e Intermediário</td><td class="td-p">Adultos de todos os níveis</td><td><div class="dw"><span class="dia">Qua</span><span class="dia">Sex</span></div></td></tr>
+            <tr><td class="td-t">16–17h</td><td class="td-n">Kids</td><td class="td-p">Crianças de 6 a 10 anos</td><td><div class="dw"><span class="dia">Qua</span><span class="dia">Sex</span></div></td></tr>
+            <tr><td class="td-t">17–18h</td><td class="td-n">Adolescente e Adulto</td><td class="td-p">A partir de 11 anos</td><td><div class="dw"><span class="dia">Qua</span><span class="dia">Sex</span></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="g-panel" id="p-ad">
+        <table class="g-tbl">
+          <thead><tr><th>Horário</th><th>Nível</th><th>Público</th><th>Dias</th></tr></thead>
+          <tbody>
+            <tr><td class="td-t">07–09h</td><td class="td-n">Iniciante e Intermediário</td><td class="td-p">Adultos — forte presença feminina</td><td><div class="dw"><span class="dia">Seg–Sex</span></div></td></tr>
+            <tr><td class="td-t">16–17h</td><td class="td-n">Kids</td><td class="td-p">Crianças de 6 a 10 anos</td><td><div class="dw"><span class="dia">Seg–Sex</span></div></td></tr>
+            <tr><td class="td-t">17–18h</td><td class="td-n">Adolescentes</td><td class="td-p">Tática e disciplina</td><td><div class="dw"><span class="dia">Seg–Sex</span></div></td></tr>
+            <tr><td class="td-t">18–19h</td><td class="td-n">Adulto Iniciação</td><td class="td-p">Do zero ao primeiro jogo</td><td><div class="dw"><span class="dia">Seg–Sex</span></div></td></tr>
+            <tr><td class="td-t">19–21h</td><td class="td-n">Adulto Intermediário</td><td class="td-p">Ritmo e jogo aplicado</td><td><div class="dw"><span class="dia">Seg–Sex</span></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="g-cta"><a href="matricula.html" class="btn-p"><i class="fab fa-whatsapp"></i> Garantir Minha Vaga</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section id="instagram" class="sp" style="background:var(--off)">
+  <div class="c"><div class="ig-grid">
+    <div class="ig-phone rv"><div class="ig-glow"></div><div class="ig-frame"><iframe src="https://www.instagram.com/ctericbelchote/embed" scrolling="no" loading="lazy"></iframe></div></div>
+    <div class="rv d2">
+      <div class="sl">Siga nas redes</div>
+      <h2 class="st">@cteric<br><em>belchote</em></h2>
+      <p class="ig-desc">Bastidores dos treinos, resultados em torneios e a energia incrível da nossa galera. Vem fazer parte desse movimento.</p>
+      <a href="https://www.instagram.com/ctericbelchote/" target="_blank" class="btn-dk"><i class="fab fa-instagram"></i> Seguir no Instagram</a>
+    </div>
+  </div></div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <canvas id="cta-canvas"></canvas>
+  <div class="cta-in rv">
+    <div class="cta-chip">Sem compromisso</div>
+    <h2 class="cta-title">Sua <em>Aula</em><br>É Grátis</h2>
+    <p class="cta-sub">Venha sentir a areia, conhecer o time e descobrir por que o vôlei de praia vai mudar a sua vida.</p>
+    <div class="cta-btns">
+      <a href="matricula.html" class="btn-cp"><i class="fab fa-whatsapp"></i> Agendar Agora</a>
+      <a href="tel:5571987617926" class="btn-cs"><i class="fas fa-phone"></i> Ligar</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="c">
+    <div class="f-grid">
+      <div>
+        <div class="f-logo">CT Eric Belchote</div>
+        <p class="f-tag">A elite do vôlei de praia em Salvador. Duas unidades, uma missão: transformar atletas na areia.</p>
+        <div class="f-soc">
+          <a href="https://www.instagram.com/ctericbelchote/" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/5571987617926" target="_blank"><i class="fab fa-whatsapp"></i></a>
         </div>
-        <a href="#insta-section" class="scroll-arrow"><i class="fas fa-chevron-down"></i></a>
-    </header>
+      </div>
+      <div class="f-col">
+        <h5>Páginas</h5>
+        <ul><li><a href="index.html">Início</a></li><li><a href="unidade1.html">Stella Maris</a></li><li><a href="unidade2.html">Adelba</a></li><li><a href="matricula.html">Matrícula</a></li></ul>
+      </div>
+      <div class="f-col">
+        <h5>Contato</h5>
+        <ul><li><a href="tel:5571987617926">(71) 98761-7926</a></li><li><a href="#">Stella Maris — CEPE</a></li><li><a href="#">Adelba — Piatã</a></li></ul>
+      </div>
+    </div>
+    <div class="f-bot"><span>© 2026 CT Eric Belchote. Todos os direitos reservados.</span><span>Feito com ❤️ em Salvador, BA</span></div>
+  </div>
+</footer>
 
-    <main>
-        <section class="section-card">
-            <h2 style="color: var(--primary); margin-bottom: 1rem; font-size: clamp(1.5rem, 5vw, 2.2rem);">Evolua na Areia</h2>
-            <p style="font-size: 1.1rem; color: #555; max-width: 850px; margin: 0 auto;">Metodologia profissional para iniciantes e atletas.</p>
-        </section>
+<a href="https://wa.me/5571987617926" class="wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
-        <section class="units-grid">
-            <div class="unit-card">
-                <div class="unit-carousel">
-                    <div class="unit-carousel-inner" id="in-sm">
-                        <img src="./img/cepe/escola de vôlei de praia salvador stella maris.jpg" class="unit-img">
-                        <img src="./img/cepe/escola de vôlei de praia salvador stella maris (2).jpg" class="unit-img">
-                        <img src="./img/cepe/escola de vôlei de praia salvador stella maris (3).jpg" class="unit-img">
-                    </div>
-                    <button class="unit-btn" style="left:10px" onclick="move('in-sm', -1)"><i class="fas fa-chevron-left"></i></button>
-                    <button class="unit-btn" style="right:10px" onclick="move('in-sm', 1)"><i class="fas fa-chevron-right"></i></button>
-                </div>
-                <div style="padding: 2rem;">
-                    <span style="background: #e8f5e9; color: var(--primary); padding: 4px 10px; border-radius: 4px; font-weight: 800; font-size: 0.75rem;">QUARTAS E SEXTAS</span>
-                    <h3 style="margin: 1rem 0; color: var(--primary);">Stella Maris (CEPE)</h3>
-                    <p>Treinos exclusivos no Clube Petrobras.</p>
-                    <a href="unidade1.html" style="color:var(--accent); font-weight:800; text-decoration:none; display:block; margin-top:1rem;">VER GRADE →</a>
-                </div>
-            </div>
+<!-- THREE.JS + GLTFLoader -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script>
+/* ─ CURSOR ─ */
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+if(cur){
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+  (function animC(){
+    if(!cur)return;
+    cur.style.left=mx+'px';cur.style.top=my+'px';
+    rx+=(mx-rx)*.13;ry+=(my-ry)*.13;
+    curR.style.left=rx+'px';curR.style.top=ry+'px';
+    requestAnimationFrame(animC);
+  })();
+  document.querySelectorAll('a,button,.u-card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cur.style.cssText+='width:15px;height:15px;background:var(--gold)';curR.style.cssText+='width:50px;height:50px;border-color:var(--gold);opacity:1'});
+    el.addEventListener('mouseleave',()=>{cur.style.cssText+='width:10px;height:10px;background:var(--g)';curR.style.cssText+='width:34px;height:34px;border-color:var(--g);opacity:.5'});
+  });
+}
 
-            <div class="unit-card">
-                <div class="unit-carousel">
-                    <div class="unit-carousel-inner" id="in-ad">
-                        <img src="./img/jagua/escola de vôlei de praia salvador.jpg" class="unit-img">
-                        <img src="./img/jagua/escola de vôlei de praia salvador (2).jpg" class="unit-img">
-                        <img src="./img/jagua/escola de vôlei de praia salvador (3).jpg" class="unit-img">
-                    </div>
-                    <button class="unit-btn" style="left:10px" onclick="move('in-ad', -1)"><i class="fas fa-chevron-left"></i></button>
-                    <button class="unit-btn" style="right:10px" onclick="move('in-ad', 1)"><i class="fas fa-chevron-right"></i></button>
-                </div>
-                <div style="padding: 2rem;">
-                    <span style="background: #e8f5e9; color: var(--primary); padding: 4px 10px; border-radius: 4px; font-weight: 800; font-size: 0.75rem;">ARENA PATAMARES</span>
-                    <h3 style="margin: 1rem 0; color: var(--primary);">ADELBA (Piatã)</h3>
-                    <p>Aulas na Av. Tamburugy em horários manhã, tarde e noite.</p>
-                    <a href="unidade2.html" style="color:var(--accent); font-weight:800; text-decoration:none; display:block; margin-top:1rem;">VER GRADE →</a>
-                </div>
-            </div>
-        </section>
+/* ─ NAV ─ */
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('sc',scrollY>60));
+function openMob(){document.getElementById('mob').classList.add('open')}
+function closeMob(){document.getElementById('mob').classList.remove('open')}
 
-        <section id="insta-section">
-            <div class="insta-text">
-                <i class="fab fa-instagram" style="color: #E1306C; font-size: 3rem; margin-bottom: 1rem;"></i>
-                <h2 style="color: var(--primary);">Siga @ctericbelchote</h2>
-                <p>Veja os treinos e a energia da nossa galera diretamente no Instagram.</p>
-                <br>
-                <a href="https://www.instagram.com/ctericbelchote/" target="_blank" style="color: #E1306C; font-weight: 800; text-decoration: none;">VER PERFIL <i class="fas fa-external-link-alt"></i></a>
-            </div>
-            <div class="insta-frame">
-                <iframe src="https://www.instagram.com/ctericbelchote/embed" scrolling="no"></iframe>
-            </div>
-        </section>
-    </main>
+/* ─ TABS ─ */
+function switchTab(id){
+  document.querySelectorAll('.g-tab').forEach((t,i)=>t.classList.toggle('active',['sm','ad'][i]===id));
+  document.querySelectorAll('.g-panel').forEach(p=>p.classList.toggle('active',p.id==='p-'+id));
+}
 
-    <footer><p>© 2026 CT Eric Belchote. Todos os direitos reservados.</p></footer>
-    <a href="https://wa.me/5571987617926" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+/* ─ REVEAL ─ */
+const rvObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');rvObs.unobserve(e.target)}});
+},{threshold:.08});
+document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
 
-    <script>
-        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
-        
-        let h = 0;
-        const slides = document.querySelectorAll('.hero-item');
-        setInterval(() => {
-            slides[h].classList.remove('active');
-            h = (h + 1) % slides.length;
-            slides[h].classList.add('active');
-        }, 5000);
+/* ─ GLB HELPER ─ */
+function loadGLB(scene, path, targetSize, onLoad){
+  const loader=new THREE.GLTFLoader();
+  loader.load(path, gltf=>{
+    const obj=gltf.scene;
+    const box=new THREE.Box3().setFromObject(obj);
+    const center=box.getCenter(new THREE.Vector3());
+    const size=box.getSize(new THREE.Vector3());
+    const scale=targetSize/Math.max(size.x,size.y,size.z);
+    obj.scale.setScalar(scale);
+    obj.position.sub(center.multiplyScalar(scale));
+    obj.traverse(c=>{if(c.isMesh&&c.material){c.material.roughness=.28;c.material.metalness=.06;c.castShadow=true;c.material.needsUpdate=true}});
+    scene.add(obj);
+    onLoad&&onLoad(obj);
+  }, null, ()=>{
+    // fallback
+    const fb=new THREE.Mesh(
+      new THREE.SphereGeometry(targetSize/2,32,32),
+      new THREE.MeshStandardMaterial({color:0x1db954,roughness:.3})
+    );
+    scene.add(fb);
+    onLoad&&onLoad(fb);
+  });
+}
 
-        const cur = {};
-        function move(id, dir) {
-            const el = document.getElementById(id);
-            if (cur[id] === undefined) cur[id] = 0;
-            const total = el.children.length;
-            cur[id] = (cur[id] + dir + total) % total;
-            el.style.transform = `translateX(-${cur[id] * 100}%)`;
-        }
-    </script>
+/* ─ LOADER — simples sem 3D ─ */
+(function(){
+  let p=0;
+  const fill=document.getElementById('l-fill'),pctEl=document.getElementById('l-pct');
+  const iv=setInterval(()=>{
+    p=Math.min(p+1.8,100);
+    fill.style.width=p+'%';pctEl.textContent=Math.round(p)+'%';
+    if(p>=100){clearInterval(iv);setTimeout(()=>{document.getElementById('loader').classList.add('out');setTimeout(()=>{const l=document.getElementById('loader');if(l)l.remove()},950)},350)}
+  },32);
+})();
+
+/* ─ HERO SCENE ─ */
+(function(){
+  const canvas=document.getElementById('hero-canvas');
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  renderer.shadowMap.enabled=true;
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(42,1,.1,100);
+  camera.position.set(0,0,5.2);
+
+  function resize(){
+    const w=canvas.clientWidth||innerWidth,h=canvas.clientHeight||innerHeight;
+    renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
+  }
+  resize();window.addEventListener('resize',()=>{resize()});
+
+  // lights
+  scene.add(new THREE.AmbientLight(0xffffff,.45));
+  const sun=new THREE.DirectionalLight(0xffffff,1);sun.position.set(5,8,6);sun.castShadow=true;scene.add(sun);
+  const gL=new THREE.PointLight(0x1db954,2.2,9);gL.position.set(-3.5,2,3);scene.add(gL);
+  const goL=new THREE.PointLight(0xf0c84a,1.5,7);goL.position.set(3,0,2);scene.add(goL);
+
+  // particles
+  function makeParticles(n,col,sz,spread){
+    const geo=new THREE.BufferGeometry();
+    const pos=new Float32Array(n*3);
+    for(let i=0;i<n;i++){pos[i*3]=(Math.random()-.5)*spread;pos[i*3+1]=(Math.random()-.5)*spread*.65;pos[i*3+2]=(Math.random()-.5)*5-3}
+    geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    return new THREE.Points(geo,new THREE.PointsMaterial({color:col,size:sz,transparent:true,opacity:.5}));
+  }
+  scene.add(makeParticles(180,0x1db954,.03,18));
+  scene.add(makeParticles(80,0xf0c84a,.025,18));
+
+  const ballGroup=new THREE.Group();scene.add(ballGroup);
+  loadGLB(scene,'./volleyball.glb',1.65,obj=>{
+    // re-parent into ballGroup for rotation
+    scene.remove(obj);ballGroup.add(obj);
+  });
+
+  let trx=0,try_=0,crx=0,cry=0,sp=0;
+  document.addEventListener('mousemove',e=>{trx=((e.clientY/innerHeight)-.5)*.7;try_=((e.clientX/innerWidth)-.5)*1.1});
+  window.addEventListener('scroll',()=>{sp=Math.min(scrollY/innerHeight,1)});
+
+  let t=0;
+  (function loop(){
+    requestAnimationFrame(loop);t+=.007;
+    crx+=(trx-crx)*.055;cry+=(try_-cry)*.055;
+    ballGroup.rotation.x=crx+Math.sin(t*.35)*.03;
+    ballGroup.rotation.y=t*.2+cry;
+    ballGroup.position.y=Math.sin(t*.55)*.12;
+    ballGroup.scale.setScalar(Math.max(1-sp*.3,.5));
+    ballGroup.position.z=-sp*1.5;
+    gL.intensity=2+Math.sin(t*1.1)*.4;
+    goL.intensity=1.4+Math.cos(t*.85)*.3;
+    goL.position.x=Math.cos(t*.45)*3.2;goL.position.y=Math.sin(t*.4)*1.8;
+    renderer.render(scene,camera);
+  })();
+})();
+
+/* ─ CTA CANVAS ─ */
+(function(){
+  const canvas=document.getElementById('cta-canvas');
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:false});
+  renderer.setPixelRatio(1);
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(55,1,.1,50);camera.position.z=5;
+  function rsz(){const e=canvas.parentElement;if(e){renderer.setSize(e.offsetWidth,e.offsetHeight,false);camera.aspect=e.offsetWidth/e.offsetHeight;camera.updateProjectionMatrix()}}
+  rsz();window.addEventListener('resize',rsz);
+  const orbs=[];
+  for(let i=0;i<14;i++){
+    const m=new THREE.Mesh(new THREE.SphereGeometry(.07+Math.random()*.16,8,8),new THREE.MeshBasicMaterial({color:Math.random()>.5?0x1db954:0xd4a843,transparent:true,opacity:.1+Math.random()*.16}));
+    m.position.set((Math.random()-.5)*11,(Math.random()-.5)*7,(Math.random()-.5)*3-2);
+    m.userData={s:.003+Math.random()*.006,o:Math.random()*Math.PI*2};scene.add(m);orbs.push(m);
+  }
+  let t3=0;
+  (function loop(){requestAnimationFrame(loop);t3+=.007;
+    orbs.forEach(o=>{o.position.y+=Math.sin(t3+o.userData.o)*o.userData.s;o.position.x+=Math.cos(t3*.5+o.userData.o)*o.userData.s*.4});
+    renderer.render(scene,camera);
+  })();
+})();
+</script>
 </body>
 </html>

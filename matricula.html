@@ -1,218 +1,295 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrícula - CT Eric Belchote</title>
-    <link rel="icon" href="./img/icon.jpg">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        /* DESIGN SYSTEM UNIFICADO */
-        :root {
-            --primary: #1a3e2f;
-            --accent: #d4af37;
-            --gold-gradient: linear-gradient(135deg, #FFC107 0%, #d4af37 100%);
-            --white: #ffffff;
-            --bg: #f5f5f5;
-        }
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrícula | CT Eric Belchote</title>
+<link rel="icon" href="./img/icon.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--g:#1db954;--g2:#15a347;--gold:#d4a843;--dark:#061510;--off:#f3f9f5;--gray:#6b7280;--lgray:#e2ede7}
+body{background:#fff;color:#111;font-family:'Inter',sans-serif;overflow-x:hidden;cursor:none;min-height:100vh}
+#cur,#curR{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%)}
+#cur{width:10px;height:10px;background:var(--g);mix-blend-mode:multiply;transition:width .2s,height .2s}
+#curR{width:34px;height:34px;border:1.5px solid var(--g);z-index:9998;opacity:.5;transition:width .3s,height .3s}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body { background-color: var(--bg); color: #333; line-height: 1.6; padding-top: 70px; overflow-x: hidden; }
+nav{position:fixed;top:0;width:100%;z-index:1000;height:54px;padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);box-shadow:0 1px 0 rgba(0,0,0,.07)}
+.n-logo{display:flex;align-items:center;gap:.5rem;font-size:.9rem;font-weight:800;color:#111;text-decoration:none}
+.n-dot{width:8px;height:8px;border-radius:50%;background:var(--g)}
+.n-links{display:flex;gap:2.2rem;list-style:none;align-items:center}
+.n-links a{color:#555;text-decoration:none;font-size:.78rem;font-weight:500;transition:color .25s}
+.n-links a:hover,.n-links a.active{color:var(--g)}
+.n-ham{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:4px;padding:4px}
+.n-ham span{display:block;width:22px;height:1.5px;background:#111}
+.mob{display:none;position:fixed;inset:0;background:#fff;z-index:990;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mob.open{display:flex}
+.mob a{font-size:2rem;font-weight:900;color:#111;text-decoration:none}
+.mob a:hover{color:var(--g)}
+.mob-x{position:absolute;top:1.5rem;right:2rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#111}
 
-        /* Barra de Navegação Padronizada */
-        .main-nav { background-color: var(--primary); color: white; padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
-        .nav-logo { color: white; font-weight: 700; font-size: 1.5rem; text-decoration: none; }
-        .nav-links { display: flex; gap: 2rem; }
-        .nav-links a { color: white; text-decoration: none; font-weight: 600; transition: 0.3s; }
-        .nav-links a:hover { opacity: 0.7; }
-        .nav-links a.active { border-bottom: 2px solid white; }
+/* LAYOUT SPLIT */
+.split{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;padding-top:54px}
 
-        /* Container do Formulário */
-        .matricula-container { max-width: 800px; margin: 3rem auto; padding: 0 1.5rem; }
-        .matricula-header { text-align: center; margin-bottom: 3rem; }
-        .matricula-header h1 { color: var(--primary); font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 800; margin-bottom: 0.5rem; }
-        
-        .matricula-form { background: white; padding: clamp(1.5rem, 5vw, 3rem); border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); border: 1px solid #eee; }
+/* LEFT — decorative */
+.split-left{
+  background:linear-gradient(155deg,var(--dark) 0%,#0d2b18 50%,#1a5732 100%);
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+  padding:4rem;
+}
+.split-left-bg{position:absolute;inset:0;z-index:0}
+.split-left-bg img{width:100%;height:100%;object-fit:cover;opacity:.12;display:block}
+.split-left-grid{position:absolute;inset:0;z-index:1;background-image:linear-gradient(rgba(29,185,84,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(29,185,84,.04) 1px,transparent 1px);background-size:50px 50px}
+.sl-content{position:relative;z-index:2}
+.sl-label{font-size:.62rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--g);margin-bottom:1.5rem;display:flex;align-items:center;gap:.5rem}
+.sl-label::before{content:'';display:block;width:20px;height:1.5px;background:var(--g)}
+.sl-title{font-size:clamp(3rem,5vw,5rem);font-weight:900;letter-spacing:-.04em;line-height:.9;color:#fff;margin-bottom:.5rem}
+.sl-title em{display:block;font-style:normal;color:var(--g)}
+.sl-sub{font-size:.9rem;color:rgba(255,255,255,.45);line-height:1.65;margin-top:1.2rem;max-width:320px}
+.sl-perks{display:flex;flex-direction:column;gap:.85rem;margin-top:2.5rem}
+.perk{display:flex;align-items:flex-start;gap:.85rem}
+.perk-icon{width:36px;height:36px;border-radius:10px;border:1px solid rgba(29,185,84,.3);display:flex;align-items:center;justify-content:center;color:var(--g);font-size:.85rem;flex-shrink:0;margin-top:.05rem}
+.perk-text strong{display:block;font-size:.85rem;font-weight:700;color:#fff}
+.perk-text span{font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.5}
 
-        .form-group { margin-bottom: 2rem; }
-        .form-group label { display: block; margin-bottom: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px; }
-        
-        .form-group input[type="text"], 
-        .form-group input[type="tel"] {
-            width: 100%; padding: 1.2rem; border: 2px solid #f1f1f1; border-radius: 10px; font-size: 1rem; transition: 0.3s; background: #fafafa;
-        }
-        .form-group input:focus { border-color: var(--accent); background: white; outline: none; }
+/* RIGHT — form */
+.split-right{background:#fff;display:flex;flex-direction:column;justify-content:center;padding:4rem 3.5rem;overflow-y:auto}
+.form-head{margin-bottom:2.5rem}
+.form-head h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:900;letter-spacing:-.03em;color:#111;line-height:1}
+.form-head p{font-size:.88rem;color:var(--gray);margin-top:.6rem}
 
-        /* Seleção de Unidade Estilo Botão */
-        .radio-group { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .radio-option input { display: none; }
-        .radio-option span {
-            display: block; text-align: center; padding: 1.2rem; border: 2px solid #eee; border-radius: 10px; cursor: pointer; font-weight: 700; transition: 0.3s;
-        }
-        .radio-option input:checked + span { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 8px 20px rgba(26,62,47,0.2); }
+/* FORM ELEMENTS */
+.fg{margin-bottom:1.6rem}
+.fg label{display:block;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#888;margin-bottom:.6rem}
+.fg input[type=text],.fg input[type=tel]{
+  width:100%;padding:.9rem 1.1rem;
+  border:1.5px solid #e8e8e8;border-radius:12px;
+  font-size:.95rem;font-family:'Inter',sans-serif;
+  background:#fafafa;color:#111;
+  transition:border-color .25s,background .25s,box-shadow .25s;
+  outline:none;
+}
+.fg input:focus{border-color:var(--g);background:#fff;box-shadow:0 0 0 3px rgba(29,185,84,.1)}
 
-        /* Grade de Turmas Responsiva */
-        .turmas-grid { display: grid; gap: 1rem; margin-top: 1rem; }
-        .turma-card input { display: none; }
-        .turma-card label {
-            display: flex; justify-content: space-between; align-items: center; padding: 1.2rem; border: 2px solid #eee; border-radius: 10px; cursor: pointer; transition: 0.3s;
-        }
-        .turma-card input:checked + label { border-color: var(--accent); background: rgba(212, 175, 55, 0.05); }
-        .turma-horario { font-weight: 800; color: var(--primary); font-size: 1.1rem; }
-        .turma-nivel { font-size: 0.85rem; color: #666; font-weight: 600; display: block; }
-        .badge-dia { background: #eee; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 800; color: #555; }
+/* UNIT SELECTOR */
+.u-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.u-opt input{display:none}
+.u-opt label{display:block;padding:1rem 1.2rem;border:1.5px solid #e8e8e8;border-radius:12px;cursor:pointer;transition:border-color .25s,background .25s;background:#fafafa}
+.u-opt input:checked+label{border-color:var(--g);background:rgba(29,185,84,.04)}
+.u-opt-name{font-size:.88rem;font-weight:700;color:#111;margin-bottom:.15rem}
+.u-opt input:checked+label .u-opt-name{color:var(--g)}
+.u-opt-sub{font-size:.72rem;color:var(--gray)}
 
-        /* BOTÃO ENVIAR COM EFEITO GLINT */
-        .btn-enviar-luxo {
-            width: 100%; padding: 1.5rem; border: none; border-radius: 50px;
-            background: var(--gold-gradient); color: var(--primary) !important;
-            font-size: 1.2rem; font-weight: 800; text-transform: uppercase;
-            cursor: pointer; position: relative; overflow: hidden; transition: 0.4s;
-            display: flex; justify-content: center; align-items: center; gap: 12px;
-            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4); margin-top: 2rem;
-        }
-        .btn-enviar-luxo::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
-            transform: skewX(-25deg); transition: 0.6s;
-        }
-        .btn-enviar-luxo:hover::before { left: 150%; }
-        .btn-enviar-luxo:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.6); }
+/* HORARIO CHECKS */
+.h-list{display:flex;flex-direction:column;gap:.5rem}
+.h-item input{display:none}
+.h-item label{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:.85rem 1.1rem;border:1.5px solid #e8e8e8;border-radius:12px;
+  cursor:pointer;transition:border-color .25s,background .25s;background:#fafafa;
+}
+.h-item input:checked+label{border-color:var(--g);background:rgba(29,185,84,.04)}
+.h-time{font-size:1rem;font-weight:800;letter-spacing:-.02em;color:#111}
+.h-item input:checked+label .h-time{color:var(--g)}
+.h-right{text-align:right}
+.h-nivel{font-size:.78rem;font-weight:700;color:#111}
+.h-dia{font-size:.68rem;color:var(--gray);margin-top:.1rem}
+.h-check{width:20px;height:20px;border:1.5px solid #ddd;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.62rem;color:transparent;transition:all .2s;flex-shrink:0;margin-left:.8rem}
+.h-item input:checked+label .h-check{background:var(--g);border-color:var(--g);color:#fff}
 
-        footer { background-color: var(--primary); color: white; text-align: center; padding: 3rem 1.5rem; margin-top: 5rem; }
+/* SUBMIT */
+.btn-submit{
+  width:100%;padding:1.1rem;border:none;border-radius:100px;
+  background:var(--g);color:#fff;
+  font-size:.95rem;font-weight:800;font-family:'Inter',sans-serif;
+  letter-spacing:.02em;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+  box-shadow:0 8px 28px rgba(29,185,84,.38);
+  transition:background .25s,transform .2s,box-shadow .25s;
+  margin-top:1.8rem;position:relative;overflow:hidden;
+}
+.btn-submit::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(to right,transparent,rgba(255,255,255,.25),transparent);transform:skewX(-20deg);transition:.6s}
+.btn-submit:hover{background:var(--g2);transform:translateY(-2px);box-shadow:0 14px 36px rgba(29,185,84,.45)}
+.btn-submit:hover::before{left:150%}
 
-        /* MOBILE ADJUSTMENTS */
-        @media (max-width: 600px) {
-            .nav-links { display: none; }
-            .radio-group { grid-template-columns: 1fr; }
-            .turma-card label { flex-direction: column; align-items: flex-start; gap: 10px; }
-            .badge-dia { align-self: flex-end; }
-        }
-    </style>
+/* FOOTER */
+footer{background:var(--dark);padding:1.8rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.f-logo{font-size:.88rem;font-weight:800;color:rgba(255,255,255,.35)}
+.f-links{display:flex;gap:1.8rem}
+.f-links a{color:rgba(255,255,255,.25);font-size:.75rem;text-decoration:none;transition:color .25s}
+.f-links a:hover{color:rgba(255,255,255,.75)}
+.f-copy{color:rgba(255,255,255,.14);font-size:.68rem}
+
+.wa{position:fixed;bottom:1.5rem;right:1.5rem;width:50px;height:50px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.35rem;text-decoration:none;z-index:900;box-shadow:0 6px 20px rgba(37,211,102,.38);transition:transform .25s}
+.wa:hover{transform:scale(1.1)}
+
+@media(max-width:880px){
+  .n-links{display:none}.n-ham{display:flex}
+  .split{grid-template-columns:1fr}
+  .split-left{min-height:auto;padding:3rem 2rem 2.5rem}
+  .split-right{padding:2.5rem 2rem}
+  .u-grid{grid-template-columns:1fr}
+  footer{flex-direction:column;text-align:center;align-items:center;padding:1.5rem 1.2rem}
+  .f-links{justify-content:center;flex-wrap:wrap}
+}
+@media(max-width:600px){
+  #cur,#curR{display:none}
+  nav{padding:0 1.2rem}
+  .split{padding-top:54px}
+  .split-left{padding:2.5rem 1.2rem 2rem}
+  .sl-title{font-size:2.8rem}
+  .sl-sub{max-width:100%}
+  .sl-perks{gap:.7rem}
+  .perk-icon{width:30px;height:30px;font-size:.75rem;flex-shrink:0}
+  .perk-text strong{font-size:.8rem}
+  .perk-text span{font-size:.73rem}
+  .split-right{padding:2rem 1.2rem 2.5rem}
+  .form-head h2{font-size:1.6rem}
+  .fg input[type=text],.fg input[type=tel]{padding:.82rem 1rem;font-size:.9rem}
+  .u-grid{grid-template-columns:1fr}
+  .h-item label{padding:.75rem .9rem;gap:.6rem}
+  .h-time{font-size:.9rem}
+  .h-nivel{font-size:.72rem}
+  .h-dia{font-size:.62rem}
+  .btn-submit{padding:1rem;font-size:.88rem}
+  footer{padding:1.5rem 1.2rem}
+}
+</style>
 </head>
 <body>
+<div id="cur"></div><div id="curR"></div>
 
-    <nav class="main-nav">
-        <div class="nav-container">
-            <a href="index.html" class="nav-logo">CT Eric Belchote</a>
-            <div class="nav-links">
-                <a href="unidade1.html">Stella Maris</a>
-                <a href="unidade2.html">Adelba</a>
-                <a href="matricula.html" class="active">Matricule-se</a>
-            </div>
-        </div>
-    </nav>
+<nav>
+  <a href="index.html" class="n-logo"><div class="n-dot"></div>CT Eric Belchote</a>
+  <ul class="n-links">
+    <li><a href="unidade1.html">Stella Maris</a></li>
+    <li><a href="unidade2.html">Adelba</a></li>
+    <li><a href="matricula.html" class="active" style="color:var(--g)">Matrícula</a></li>
+  </ul>
+  <button class="n-ham" onclick="document.getElementById('mob').classList.add('open')"><span></span><span></span><span></span></button>
+</nav>
+<div class="mob" id="mob">
+  <button class="mob-x" onclick="document.getElementById('mob').classList.remove('open')"><i class="fas fa-times"></i></button>
+  <a href="index.html">Início</a><a href="unidade1.html">Stella Maris</a><a href="unidade2.html">Adelba</a>
+  <a href="matricula.html" style="color:var(--g)">Matrícula</a>
+</div>
 
-    <main class="matricula-container">
-        <div class="matricula-header">
-            <h1>Aula Experimental</h1>
-            <p>Escolha sua unidade e o melhor horário para você.</p>
-        </div>
+<div class="split">
+  <!-- LADO ESQUERDO -->
+  <div class="split-left">
+    <div class="split-left-bg"><img src="./img/banner/vôlei de praia salvador (2).jpg" alt=""></div>
+    <div class="split-left-grid"></div>
+    <div class="sl-content">
+      <div class="sl-label">Comece agora</div>
+      <div class="sl-title">AULA<em>GRÁTIS</em>PRA VOCÊ</div>
+      <p class="sl-sub">Preencha o formulário e entraremos em contato pelo WhatsApp para confirmar sua vaga.</p>
+      <div class="sl-perks">
+        <div class="perk"><div class="perk-icon"><i class="fas fa-check"></i></div><div class="perk-text"><strong>Sem compromisso</strong><span>Experimente e veja se é pra você.</span></div></div>
+        <div class="perk"><div class="perk-icon"><i class="fas fa-users"></i></div><div class="perk-text"><strong>Todas as idades</strong><span>Kids, teens, adultos e avançados.</span></div></div>
+        <div class="perk"><div class="perk-icon"><i class="fas fa-map-marker-alt"></i></div><div class="perk-text"><strong>2 unidades</strong><span>Stella Maris e Adelba.</span></div></div>
+        <div class="perk"><div class="perk-icon"><i class="fab fa-whatsapp"></i></div><div class="perk-text"><strong>Resposta rápida</strong><span>Confirmação direto no WhatsApp.</span></div></div>
+      </div>
+    </div>
+  </div>
 
-        <form class="matricula-form">
-            <div class="form-group">
-                <label>Seu Nome Completo</label>
-                <input type="text" id="nome" placeholder="Digite seu nome" required>
-            </div>
+  <!-- LADO DIREITO -->
+  <div class="split-right">
+    <div class="form-head">
+      <h2>Agendar Aula<br>Experimental</h2>
+      <p>Preencha abaixo e entraremos em contato para confirmar.</p>
+    </div>
 
-            <div class="form-group">
-                <label>WhatsApp para Contato</label>
-                <input type="tel" id="telefone" placeholder="(71) 99999-9999" required>
-            </div>
+    <div class="fg">
+      <label>Seu Nome Completo</label>
+      <input type="text" id="nome" placeholder="Ex: Maria Santos">
+    </div>
+    <div class="fg">
+      <label>WhatsApp para Contato</label>
+      <input type="tel" id="fone" placeholder="(71) 99999-9999">
+    </div>
 
-            <div class="form-group">
-                <label>Selecione a Unidade</label>
-                <div class="radio-group">
-                    <label class="radio-option">
-                        <input type="radio" name="unidade" value="Stella Maris" checked onchange="carregarTurmas()">
-                        <span>Stella Maris (CEPE)</span>
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="unidade" value="Adelba" onchange="carregarTurmas()">
-                        <span>Adelba (Patamares)</span>
-                    </label>
-                </div>
-            </div>
+    <div class="fg">
+      <label>Escolha a Unidade</label>
+      <div class="u-grid">
+        <div class="u-opt"><input type="radio" name="un" id="u-sm" value="Stella Maris" checked onchange="loadHorarios()"><label for="u-sm"><div class="u-opt-name">Stella Maris</div><div class="u-opt-sub">CEPE · Qua e Sex</div></label></div>
+        <div class="u-opt"><input type="radio" name="un" id="u-ad" value="Adelba" onchange="loadHorarios()"><label for="u-ad"><div class="u-opt-name">Adelba</div><div class="u-opt-sub">Piatã · Seg a Sex</div></label></div>
+      </div>
+    </div>
 
-            <div class="form-group">
-                <label>Escolha um ou mais Horários</label>
-                <div class="turmas-grid" id="turmas-container">
-                    </div>
-            </div>
+    <div class="fg">
+      <label>Escolha o(s) Horário(s)</label>
+      <div class="h-list" id="h-list"></div>
+    </div>
 
-            <button type="button" class="btn-enviar-luxo" onclick="enviarWhatsApp()">
-                <i class="fab fa-whatsapp"></i> AGENDAR AULA AGORA
-            </button>
-        </form>
-    </main>
+    <button class="btn-submit" onclick="enviar()">
+      <i class="fab fa-whatsapp" style="font-size:1.1rem"></i>
+      Agendar pelo WhatsApp
+    </button>
+  </div>
+</div>
 
-    <footer>
-        <p>© 2026 CT Eric Belchote. Todos os direitos reservados.</p>
-    </footer>
+<footer>
+  <div class="f-logo">CT Eric Belchote</div>
+  <div class="f-links"><a href="index.html">Início</a><a href="unidade1.html">Stella Maris</a><a href="unidade2.html">Adelba</a></div>
+  <div class="f-copy">© 2026 CT Eric Belchote</div>
+</footer>
+<a href="https://wa.me/5571987617926" class="wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
-    <script>
-        // DADOS SINCRONIZADOS COM OS FLYERS
-        const turmas = {
-            "Stella Maris": [
-                { id: "sm1", h: "06h – 07h", n: "Avançado", d: "QUARTAS E SEXTAS" },
-                { id: "sm2", h: "07h – 08h", n: "Iniciantes e Intermediário", d: "QUARTAS E SEXTAS" },
-                { id: "sm3", h: "16h – 17h", n: "Kids (6-10 anos)", d: "QUARTAS E SEXTAS" },
-                { id: "sm4", h: "17h – 18h", n: "Adolescente e Adulto", d: "QUARTAS E SEXTAS" }
-            ],
-            "Adelba": [
-                { id: "ad1", h: "07h – 09h", n: "Manhã - Iniciantes e Intermediários", d: "SEG A SEX" },
-                { id: "ad2", h: "16h – 17h", n: "Kids (6-10 anos)", d: "SEG A SEX" },
-                { id: "ad3", h: "17h – 18h", n: "Adolescentes (Tática)", d: "SEG A SEX" },
-                { id: "ad4", h: "18h – 19h", n: "Adulto - Iniciação (Zero)", d: "SEG A SEX" },
-                { id: "ad5", h: "19h – 21h", n: "Adulto - Intermediário", d: "SEG A SEX" }
-            ]
-        };
+<script>
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+(function a(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.13;ry+=(my-ry)*.13;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(a)})();
 
-        function carregarTurmas() {
-            const unidade = document.querySelector('input[name="unidade"]:checked').value;
-            const container = document.getElementById('turmas-container');
-            container.innerHTML = '';
-            
-            turmas[unidade].forEach(t => {
-                const div = document.createElement('div');
-                div.className = 'turma-card';
-                div.innerHTML = `
-                    <input type="checkbox" id="${t.id}" value="${t.h} - ${t.n}">
-                    <label for="${t.id}">
-                        <div>
-                            <span class="turma-horario">${t.h}</span>
-                            <span class="turma-nivel">${t.n}</span>
-                        </div>
-                        <span class="badge-dia">${t.d}</span>
-                    </label>
-                `;
-                container.appendChild(div);
-            });
-        }
+const turmas={
+  "Stella Maris":[
+    {id:"sm1",h:"06–07h",n:"Avançado",d:"QUA E SEX"},
+    {id:"sm2",h:"07–08h",n:"Iniciante e Intermediário",d:"QUA E SEX"},
+    {id:"sm3",h:"16–17h",n:"Kids (6–10 anos)",d:"QUA E SEX"},
+    {id:"sm4",h:"17–18h",n:"Adolescente e Adulto",d:"QUA E SEX"}
+  ],
+  "Adelba":[
+    {id:"ad1",h:"07–09h",n:"Manhã – Iniciante e Intermediário",d:"SEG A SEX"},
+    {id:"ad2",h:"16–17h",n:"Kids (6–10 anos)",d:"SEG A SEX"},
+    {id:"ad3",h:"17–18h",n:"Adolescentes (Tática)",d:"SEG A SEX"},
+    {id:"ad4",h:"18–19h",n:"Adulto Iniciação (Zero)",d:"SEG A SEX"},
+    {id:"ad5",h:"19–21h",n:"Adulto Intermediário",d:"SEG A SEX"}
+  ]
+};
 
-        function enviarWhatsApp() {
-            const nome = document.getElementById('nome').value.trim();
-            const fone = document.getElementById('telefone').value.trim();
-            const unidade = document.querySelector('input[name="unidade"]:checked').value;
-            const selecionados = document.querySelectorAll('.turma-card input:checked');
+function loadHorarios(){
+  const un=document.querySelector('input[name="un"]:checked').value;
+  const list=document.getElementById('h-list');
+  list.innerHTML='';
+  turmas[un].forEach(t=>{
+    const d=document.createElement('div');
+    d.className='h-item';
+    d.innerHTML=`
+      <input type="checkbox" id="${t.id}" value="${t.h} - ${t.n}">
+      <label for="${t.id}">
+        <div class="h-time">${t.h}</div>
+        <div class="h-right"><div class="h-nivel">${t.n}</div><div class="h-dia">${t.d}</div></div>
+        <div class="h-check"><i class="fas fa-check"></i></div>
+      </label>`;
+    list.appendChild(d);
+  });
+}
 
-            if(!nome || !fone || selecionados.length === 0) {
-                alert("Por favor, preencha seu nome, telefone e escolha ao menos um horário!");
-                return;
-            }
+function enviar(){
+  const nome=document.getElementById('nome').value.trim();
+  const fone=document.getElementById('fone').value.trim();
+  const un=document.querySelector('input[name="un"]:checked').value;
+  const sel=document.querySelectorAll('.h-item input:checked');
+  if(!nome||!fone){alert('Por favor, preencha seu nome e telefone.');return}
+  if(sel.length===0){alert('Escolha ao menos um horário.');return}
+  let hrs='';
+  sel.forEach(s=>{hrs+=`%0A• ${s.value}`});
+  const msg=`Olá! Me chamo *${nome}* e gostaria de agendar uma aula experimental na *Unidade ${un}*:%0A${hrs}%0A%0AMeu contato: ${fone}`;
+  window.open(`https://wa.me/5571987617926?text=${msg}`,'_blank');
+}
 
-            let horariosTxt = "";
-            selecionados.forEach(s => horariosTxt += `%0A- ${s.value}`);
-
-            const mensagem = `Olá! Me chamo *${nome}* e gostaria de agendar uma aula experimental na *Unidade ${unidade}* nos seguintes horários:${horariosTxt}`;
-            
-            window.open(`https://wa.me/5571987617926?text=${mensagem}`, '_blank');
-        }
-
-        // Inicia com a unidade padrão
-        document.addEventListener('DOMContentLoaded', carregarTurmas);
-    </script>
+document.addEventListener('DOMContentLoaded',loadHorarios);
+</script>
 </body>
 </html>
